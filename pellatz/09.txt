@@ -1,0 +1,28 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 09
+
+int main()
+{
+    int jahr;
+    
+    printf("Jahr: "); scanf("%d", &jahr);
+    //printf("%d",jahr%100);
+    
+    if (jahr%400==0)
+    {
+        printf("Jahr %d ist ein Schaltjahr", jahr);
+    }
+    else if (jahr%100==0 & jahr%400!=0)
+    {
+        printf("Jahr %d ist kein Schaltjahr", jahr);
+    }
+    else if (jahr%4==0)
+    {
+        printf("Jahr %d ist ein Schaltjahr", jahr);
+    }
+    else
+    {
+        printf("Jahr %d ist kein Schaltjahr", jahr);
+    }
+}

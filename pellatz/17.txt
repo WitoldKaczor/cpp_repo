@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <conio.h>
+//pellatz 
+//Aufgabe 17
+//Schreiben Sie ein Programm ZINS, welches die Entwicklung eines Kapitals einschließlich Zinsen
+//für einen beliebigen Zeitraum berechnet.
+//Eingabe: Kapital, Zinssatz (in %), Laufzeit (in Jahren)
+
+int main()
+{
+    int laufzeit;
+    float kapital, zinssatz, kapital_tmp; 
+    
+    printf("Kapital in EUR: "); scanf("%f", &kapital);
+    printf("Zinssatz in %%: "); scanf("%f", &zinssatz);
+    printf("Laufzeit in Jahren: "); scanf("%d", &laufzeit);
+    printf("=======================\n");
+    printf("Jahr\tKapital\n");
+    
+    for (int i=1; i<=laufzeit; ++i)
+    {
+        kapital = (1+zinssatz/100)*kapital;
+        printf("%d\t%.2f\n", i, kapital);
+    }
+}

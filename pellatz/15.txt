@@ -1,0 +1,13 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 15
+//ein Tool, welches eine ASCII-Tabelle der ASCII-Zeichen 32 bis 255 am Bildschirm
+//in formatierter Ausgabe angezeigt.
+
+int main()
+{
+    for (int ascii_num=32; ascii_num<=50; ++ascii_num)
+    {
+        printf("%d\t %c\n", ascii_num, ascii_num);
+    }
+}

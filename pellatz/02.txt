@@ -1,0 +1,22 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 02
+
+int main()
+{
+    int alter;
+    printf("Bitte Alter eingeben: ");
+    scanf("%d", &alter);
+    
+    char name[30];
+    printf("Bitte Name eingeben: ");
+    scanf("%s", name);
+    
+    float gehalt;
+    printf("Bitte Gehalt eingeben: ");
+    scanf("%f", &gehalt);
+    
+    printf("Alter: %d\nName: %s\nGehalt: %.2f\n", alter, name, gehalt);
+    
+    return 0;
+}

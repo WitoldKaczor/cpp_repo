@@ -1,0 +1,12 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 01
+
+int main()
+{
+
+    printf("Dieses ist ein C-Programm. \n");
+    printf("\t Und es ist ganz allein.");
+
+    return 0;
+}

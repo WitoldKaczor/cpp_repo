@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <string.h>
+//freitagsrunde 
+//Autohaus
+
+struct car 
+    {
+        char brand[20];
+        float v_max;
+        int ABS;
+        int door_num;
+    };
+
+int main()
+{
+    struct car car_t = {.brand="Lamborghini", .v_max=200, .ABS=1, .door_num=5};
+    
+    float preis;
+    int multiplier = 1;
+    if (strcmp(car_t.brand, "Porsche")==0)
+    {
+        multiplier = 2;
+    }
+    else if (strcmp(car_t.brand, "Lamborghini")==0)
+    {
+        multiplier = 20;
+    }
+    preis = car_t.v_max*50*car_t.door_num+car_t.ABS*5000*multiplier;
+
+    printf("Preis: %.2f Tsd.", preis/1000);
+    
+    return 0;
+}

@@ -1,0 +1,29 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 13
+
+//Schreiben Sie ein Programm „Kreis“, welches die Fläche eines Kreises berechnet, wenn ein Radius
+//eingegeben wird. Die Ausgabe soll in außerhalb des Hauptprogramms in einer eigenen Funktion
+//´Ausgabe´ erfolgen.
+
+float kreis();
+void ausgabe(float);
+
+int main()  
+{  
+    ausgabe(kreis());
+    return 0;
+}
+
+float kreis()
+{
+    float radius;
+    printf("Radius: "); scanf("%f", &radius);
+    return 3.14*radius*radius;
+}
+
+void ausgabe(float area)
+{
+    printf("Fläche: %.2f", area);
+}
+

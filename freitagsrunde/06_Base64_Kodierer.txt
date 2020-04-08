@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <string.h>
+//freitagsrunde 
+//Base64 Kodierer
+
+int main()
+{
+    /*char *byte1 = "12345678";
+    char *byte2 = "54243251";
+    char *byte3 = "34567942";*/
+    
+    char *byte1 = "10101001";
+    char *byte2 = "10010110";
+    char *byte3 = "10000100";
+    
+    //sign1
+    char sign1[7];
+    memcpy(sign1, &byte1[0], 6);
+    sign1[6] = '\0';
+    
+    //sign2
+    char sign2[8];
+    memcpy(sign2, &byte1[6], 2);
+    sign2[2] = '\0';
+    
+    char sign2_part2[5];
+    memcpy(sign2_part2, &byte2[0], 4);
+    sign2_part2[4] = '\0';
+    
+    strcat(sign2, sign2_part2);
+    
+    //sign3
+    char sign3[8];
+    memcpy(sign3, &byte2[4], 4);
+    sign3[4] = '\0';
+    
+    char sign3_part2[3];
+    memcpy(sign3_part2, &byte3[0], 2);
+    sign3_part2[2] = '\0';
+    
+    strcat(sign3, sign3_part2);
+    
+    //sign4
+    char sign4[8];
+    memcpy(sign4, &byte3[2], 6);
+    sign4[6] = '\0';
+    
+    //print
+    printf("%s %s %s\n", byte1, byte2, byte3);
+    printf("%s %s %s %s\n", sign1, sign2, sign3, sign4);
+}

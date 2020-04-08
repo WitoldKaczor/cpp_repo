@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <string.h>
+//pellatz 
+//Aufgabe 30
+   
+struct lohn 
+{
+    int Persnr;
+    char Name[20];
+    int Stunden;
+    float Std_lohn;
+    float brutto_lohn;
+};
+
+int main() 
+{
+    struct lohn arr[4] = {100, "Meier", 152, 9.20, 0,
+                          102, "Kunze", 165, 11.05, 0,
+                          108, "Weber", 190, 15.50, 0,
+                          111, "Berger", 80, 14.20, 0,};
+    
+    for (int i=0; i<4; ++i)
+    {
+        arr[i].brutto_lohn = arr[i].Stunden*arr[i].Std_lohn;
+        
+        printf ("%d\t%s\t%d\t%.2f\t%.2f\n",
+            arr[i].Persnr, arr[i].Name, arr[i].Stunden, 
+            arr[i].Std_lohn, arr[i].brutto_lohn);
+    }
+    
+    return 0; 
+}

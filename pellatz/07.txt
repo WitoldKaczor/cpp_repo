@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <string.h>
+//pellatz 
+//Aufgabe 07
+
+int main()
+{
+    char antwort[1];
+    printf("Antworten sie mit Ja (j oder J) oder Nein (n oder N): ");
+    scanf("%s", antwort);
+    //printf("%s", antwort);
+
+    if (strcmp(antwort, "n")==0 | strcmp(antwort, "N")==0)
+    {
+        printf("Sie haben mit Nein geantwortet");
+    }
+    else if (strcmp(antwort, "j")==0 | strcmp(antwort, "J")==0)
+    {
+        printf("Sie haben mit Ja geantwortet");
+    }
+    else
+    {
+        printf("Sie haben eine falsche Eingabe gemacht");
+    }
+}

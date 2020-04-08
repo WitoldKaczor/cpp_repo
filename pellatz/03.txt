@@ -1,0 +1,17 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 03
+
+int main()
+{
+    float tempF, tempC;
+    
+    printf("Temperatur in F: ");
+    scanf("%f", &tempF);
+    
+    tempC = 5*(tempF-32)/9;
+    
+    printf("%.1fF ist gleich %.1fdegC", tempF, tempC);
+    
+    return 0;
+}

@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <string.h>
+//pellatz 
+//Aufgabe 24
+//Lesen Sie fünf Zahlen über die Tastatur in ein Zahlenfeld ein 
+//und geben Sie diese anschließend wieder aus.
+
+int main()
+{
+    int zahlen_array[5]; int scan_zahl;
+    printf("Fünf Zahlen eingeben:\n");
+    for (int i=0; i<5; ++i)
+    {
+        scanf("%d", &zahlen_array[i]);
+        //zahlen_array[i] = scan_zahl;
+    }
+    printf("-----------------\n");
+    for (int i=0; i<5; ++i)
+    {
+        printf("%d ", zahlen_array[i]);
+    }
+    return 0; 
+}

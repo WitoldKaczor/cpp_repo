@@ -1,0 +1,31 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 06
+
+int main()
+{
+    //Eingabe: Stückzahl und Einzelpreis.
+    //Bei mehr als 10 Stück gibt es 5 % Rabatt, bei mehr als 50 Stück gibt es 10 % Rabatt.
+    //Ausgabe: Gesamtpreis.
+    
+    int menge;
+    float einzelpreis, gesamtpreis;
+    
+    printf("Menge:"); scanf("%d", &menge);
+    printf("Einzelpreis: "); scanf("%f", &einzelpreis);
+    
+    if (menge>10 & menge<50) 
+    {
+        gesamtpreis=0.95*menge*einzelpreis;
+    }
+    else if (menge>50)
+    {
+        gesamtpreis=0.9*menge*einzelpreis;
+    }
+    else
+    {
+        gesamtpreis=menge*einzelpreis;
+    }
+    
+    printf("Gesamtpreis: %.2fEUR", gesamtpreis);
+}

@@ -1,0 +1,21 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 05
+
+int main()
+{
+    //Zahl zwischen 10 und 100: richtig, sonst falsch
+    int zahl;
+    
+    printf("Bitte Zahl eingeben: ");
+    scanf("%d", &zahl);
+    
+    if (zahl>10 & zahl<100)
+    {
+        printf("richtig");
+    }
+    else 
+    {
+        printf("falsch");
+    }
+}

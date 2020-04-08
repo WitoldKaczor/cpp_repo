@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+//freitagsrunde 
+//Fibonacci-Folge
+
+int fib(int number);
+
+int main() 
+{
+    int number;
+    printf("bis zum welchem Glied rechnen: "); 
+    scanf("%d", &number);
+    
+    if (number<0)
+    {
+        printf("Wrong input");
+    }
+    else
+    {
+        printf("der %d. Glied in Fibonacci Folge ist %d\n", number, fib(number));
+        for(int i=0; i<number; ++i)
+        {
+            printf("%d ", fib(i));
+        }
+    }
+    
+    return 0; 
+}
+
+int fib(int number)
+{
+    if (number==0 || number==1)
+    {
+        return 1;
+    }
+    else
+    {
+        return fib(number-1) + fib(number-2);
+    }
+}

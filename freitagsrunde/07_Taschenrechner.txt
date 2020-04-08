@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <string.h>
+//freitagsrunde 
+//Taschenrechner
+
+int main()
+{
+    float num1, num2;
+    char oper[1];
+    printf("erste Zahl:\t"); scanf("%f", &num1);
+    printf("Operator:\t"); scanf("%s", oper);
+    printf("zweite Zahl:\t"); scanf("%f", &num2);
+    printf("-----------------------\n");
+    
+    if (strcmp(oper, "+")==0)
+    {
+        printf("Ergebnis:\t%.2f", num1+num2);
+    }
+    else if (strcmp(oper, "-")==0)
+    {
+        printf("Ergebnis:\t%.2f", num1-num2);
+    }
+    else if (strcmp(oper, "*")==0)
+    {
+        printf("Ergebnis:\t%.2f", num1*num2);
+    }
+    else if (strcmp(oper, "/")==0)
+    {
+        printf("Ergebnis:\t%.2f", num1/num2);
+    }
+    else 
+    {
+        printf("Falscher Operator");
+    }
+    return 0;
+}

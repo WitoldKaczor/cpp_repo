@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <conio.h>
+//pellatz 
+//Aufgabe 16
+//Ausgabe der Zahlen 1 bis 100. Es sollen jedoch nur jeweils 25 Zahlen angezeigt werden. Danach
+//soll zu einem Tastendruck aufgefordert werden, um die nächsten 25 Zahlen anzuzeigen.
+
+int main()
+{
+    for (int i=1; i<=100; ++i)
+    {
+        printf("%d\n", i);
+        if (i%25==0)
+        {
+            getchar();
+        }
+    }
+}

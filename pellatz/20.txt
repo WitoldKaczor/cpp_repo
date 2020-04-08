@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <conio.h>
+//pellatz 
+//Aufgabe 20
+
+int main()
+{
+    int laufzeit = 0;
+    float kapital, zinssatz; 
+    
+    printf("Kapital in EUR: "); scanf("%f", &kapital);
+    printf("Zinssatz in %%: "); scanf("%f", &zinssatz);
+    //printf("Laufzeit in Jahren: "); scanf("%d", &laufzeit);
+    printf("=======================\n");
+    printf("Laufzeit in Jahren\tKapital\n");
+    
+    while (kapital<=1e6)
+    {
+        kapital = (1+zinssatz/100)*kapital;
+        ++laufzeit;
+    }
+    printf("%d\t\t\t%.2f\n", laufzeit, kapital);
+}
+

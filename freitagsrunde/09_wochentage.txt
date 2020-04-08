@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+//freitagsrunde 
+//Wochentag
+
+int main()
+{
+    int day, month, year;
+    printf("Tag:\t"); scanf("%d", &day);
+    printf("Monat:\t"); scanf("%d", &month);
+    printf("Jahr:\t"); scanf("%d", &year);
+    
+    //lange Monate
+    int long_month;
+    if (month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12)
+    {
+        long_month = 1;
+    }
+    else
+    {
+        long_month = 0;
+    }
+    
+    //Schaltjahr
+    int leapyear;
+    if ((year%4==0 && year%100!=0) || ((year%100==0 && year%400==0)))
+    {   leapyear = 1;}
+    else 
+    {   leapyear = 0;}
+    //printf("%d", leapyear);
+    
+    if (year<=0 || month<=0 || month>12 || day<1)
+    {
+        printf("Inkorrektes Datum");
+    }
+    else if (long_month==1 && day>31)
+    {
+        printf("Inkorrektes Datum"); 
+    }
+    else if (long_month==0 && month!=2 && day>30)
+    {
+        printf("Inkorrektes Datum"); 
+    }
+    else if (month==2 && ((leapyear==1 && day>29) || (leapyear==0 && day>28)))
+    {
+        printf("Inkorrektes Datum"); 
+    }
+    else
+    {
+        //printf("Korrektes Datum\n");
+        
+        int distance;
+        if (year<=2019) //31.12.2019 Dienstag
+        {
+            distance = 365*abs(2019-year); // ganze Jahre ohne Schaltjahre
+            distance = distance + (int)ceil((2019-year)/4); //Schaltjahre
+            printf("distance (only years): %d\n", distance);
+            
+            int distance_month = 12-month;
+            switch (distance_month)
+            {
+                case 0: distance = distance + (31-day); break;
+                case 1: distance = distance + 31+(30-day); break;
+                case 2: distance = distance + 31+30+(31-day); break;
+                case 3: distance = distance + 31+30+31+(30-day); break;
+                case 4: distance = distance + 31+30+31+30+(31-day); break;
+                case 5: distance = distance + 31+30+31+30+31+(31-day); break;
+                case 6: distance = distance + 31+30+31+30+31+31+(30-day); break;
+                case 7: distance = distance + 31+30+31+30+31+31+30+(31-day); break;
+                case 8: distance = distance + 31+30+31+30+31+31+30+31+(30-day); break;
+                case 9: distance = distance + 31+30+31+30+31+31+30+31+30+(31-day); break;
+                case 10:distance = distance + 31+30+31+30+31+31+30+31+30+31+(28-day); break;
+                case 11:distance = distance + 31+30+31+30+31+31+30+31+30+31+28+(31-day); break;
+            }
+            if ((distance_month==10 || distance_month==11) && leapyear==1)
+            {
+                ++distance; //für Schaltjahre
+            }
+            printf("distance: %d\n", distance);
+            
+            //Wochentag
+            switch (distance%7)
+            {
+                case 0: printf("Dienstag"); break;
+                case 1: printf("Montag"); break;
+                case 2: printf("Sonntag"); break;
+                case 3: printf("Samstag"); break;
+                case 4: printf("Freitag"); break;
+                case 5: printf("Donnerstag"); break;
+                case 6: printf("Mittwoch"); break;
+            }
+        }
+        else //year>2019 //01.01.2020 Mittwoch
+        {
+            distance = 365*abs(2020-year); // ganze Jahre ohne Schaltjahre
+            distance = distance + (int)ceil((2020-year)/4); //Schaltjahre
+            printf("distance (only years): %d\n", distance);
+            
+            int distance_month = month-01;
+            switch (distance_month)
+            {
+                case 0: distance = distance + (day-1); break;
+                case 1: distance = distance + 31+(day-1); break;
+                case 2: distance = distance + 31+28+(day-1); break;
+                case 3: distance = distance + 31+28+31+(day-1); break;
+                case 4: distance = distance + 31+28+31+30+(day-1); break;
+                case 5: distance = distance + 31+28+31+30+31+(day-1); break;
+                case 6: distance = distance + 31+28+31+30+31+30+(day-1); break;
+                case 7: distance = distance + 31+28+31+30+31+30+31+(day-1); break;
+                case 8: distance = distance + 31+28+31+30+31+30+31+31+(day-1); break;
+                case 9: distance = distance + 31+28+31+30+31+30+31+31+30+(day-1); break;
+                case 10:distance = distance + 31+28+31+30+31+30+31+31+30+31+(day-1); break;
+                case 11:distance = distance + 31+28+31+30+31+30+31+31+30+31+30+(day-1); break;
+            }
+            if (distance_month!=0 && leapyear==1)
+            {
+                ++distance; //für Schaltjahre
+            }
+            printf("distance: %d\n", distance);
+            
+            //Wochentag
+            switch (distance%7)
+            {
+                case 0: printf("Mittwoch"); break;
+                case 1: printf("Donnerstag"); break;
+                case 2: printf("Freitag"); break;
+                case 3: printf("Samstag"); break;
+                case 4: printf("Sonntag"); break;
+                case 5: printf("Montag"); break;
+                case 6: printf("Dienstag"); break;
+            }
+        }
+    }
+    return 0;
+}

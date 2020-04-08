@@ -1,0 +1,23 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 10
+
+int main()
+{
+    int note;
+    printf("Note: "); scanf("%d", &note);
+    switch (note)
+    {
+        case 1: printf("sehr gut");
+        break;
+        case 2: printf("gut");
+        break;
+        case 3: printf("befriedigend");
+        break;
+        case 4: printf("ausreichend");
+        break;
+        case 5: printf("nicht ausreichend");
+        break;
+        default: printf("falsche Eingabe"); 
+    }
+}

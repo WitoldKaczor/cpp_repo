@@ -1,0 +1,28 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 29
+
+struct kundenliste 
+{
+    int Kd_Nr;
+    char Kd_Name[20];
+    int Kd_Plz;
+    char Kd_Ort[20];
+};
+
+int main() 
+{
+    struct kundenliste arr[5] = {615, "Foo", 31298, "FrankfurtE",
+                                 615, "Foo", 31123298, "FrankfurtE",
+                                 61345675, "Foghdgao", 3125232198, "FrankfurtE",
+                                 6189765, "Foo", 3129513248, "FrankfurtE",
+                                 665415, "Foo", 31298, "FrankfurtE"};
+    
+    for (int i=0; i<5; ++i)
+    {
+        printf ("Kundennummer\t%d\nName\t\t%s\nAdresse\t\t%d, %s\n",
+            arr[i].Kd_Nr, arr[i].Kd_Name, arr[i].Kd_Plz, arr[i].Kd_Ort);
+    }
+    
+    return 0; 
+}

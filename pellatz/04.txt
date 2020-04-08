@@ -1,0 +1,27 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 04
+
+int main()
+{
+    //Eingaben: Menge, Preis,Rabatt in %,Skonto in %,Versandkosten
+    int menge;
+    float preis, rabatt, skonto, versandkosten;
+    printf("Menge: "); scanf("%d", &menge);
+    printf("Listenpreis pro Stück in EUR: "); scanf("%f", &preis);
+    printf("Rabatt in %%: "); scanf("%f", &rabatt);
+    printf("Skonto in %%: "); scanf("%f", &skonto);
+    printf("Versandkosten in EUR: "); scanf("%f", &versandkosten);
+    printf("==================================\n");
+    
+    //Ausgaben: Zieleinkaufspreis, Bareinkaufspreis, Bezugspreis (Einstandspreis)
+    float zieleinkaufspreis, bareinkaufspreis, bezugspreis, startpreis;
+    startpreis = menge*preis;
+    zieleinkaufspreis = startpreis*(1-rabatt/100);
+    bareinkaufspreis = zieleinkaufspreis*(1-skonto/100);
+    bezugspreis = bareinkaufspreis+versandkosten;
+    printf("Startpreis: %.2fEUR\n", startpreis);
+    printf("Zieleinkaufspreis: %.2fEUR\n", zieleinkaufspreis);
+    printf("Bareinkaufspreis: %.2fEUR\n", bareinkaufspreis);
+    printf("Bezugspreis: %.2fEUR\n", bezugspreis);
+}

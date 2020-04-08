@@ -1,0 +1,16 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 11
+
+int main()
+{
+    float zahl1, zahl2;
+    printf("Bitte zwei Zahlen eingeben:\n"); 
+    scanf("%f", &zahl1);
+    scanf("%f", &zahl2);
+    
+    printf("%.2f + %.2f = %.2f\n", zahl1, zahl2, zahl1+zahl2); 
+    printf("%.2f - %.2f = %.2f\n", zahl1, zahl2, zahl1-zahl2); 
+    printf("%.2f * %.2f = %.2f\n", zahl1, zahl2, zahl1*zahl2); 
+    printf("%.2f / %.2f = %.2f\n", zahl1, zahl2, zahl1/zahl2); 
+}

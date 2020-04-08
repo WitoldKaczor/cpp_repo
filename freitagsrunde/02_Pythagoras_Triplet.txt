@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+//freitagsrunde 
+//Pythagoras-Triplet
+//Finde nun ein Pythagoras-Triplet, das zudem a + b + c = 1000 erfüllt und gib das Produkt abc an.
+//a < b < c und a² + b² = c²
+int main() 
+{
+    int a, b, c;
+    
+    for (a=0; a<=998; ++a){
+        for (b=a+1; b<=999; ++b){
+            for (c=b+1; c<=1000; ++c){
+                if ((a<b && b<c) && (a*a+b*b==c*c) && (a+b+c==1000))
+                printf("a = %d, b = %d, c = %d\n", a, b, c);
+            }
+        }
+    }
+    
+    return 0; 
+}

@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <string.h>
+//pellatz 
+//Aufgabe 08
+
+int main()
+{
+    float dauer;
+    char gekuendigt[5];
+    
+    printf("Dauer der Betriebszugehörigkeit in Jahren: ");
+    scanf("%f", &dauer);
+    printf("Gekündigtes Arbeitsverhältnis (ja oder nein): ");
+    scanf("%s", gekuendigt);
+    
+    if (strcmp(gekuendigt,"nein")==0 & dauer>10)
+    {
+        printf(" Anzahl der Aktien: 20");
+    }
+    else if (strcmp(gekuendigt,"nein")==0 & dauer<10 & dauer>2)
+    {
+        printf(" Anzahl der Aktien: 10");
+    }
+    else
+    {
+        printf(" Anzahl der Aktien: keine");
+    }
+}

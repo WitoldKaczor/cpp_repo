@@ -1,0 +1,62 @@
+#include <stdio.h>
+//pellatz 
+//Aufgabe 26
+//ein Programm, mit dem man den kleinsten und größten Wert 
+//in einer Tabelle suchen kann. 
+//Ausgabe: der kleinste sowie der größte Wert, sowie die jeweilige Position in der Tabelle.
+//Array wird in einer zusätzlichen Funktion ausgegeben
+
+int array_ausgabe(int arr[], int size);
+
+int main()
+{
+    //array vorgeben
+    //int zahlen_array[] = {100, 220, -7, 53, 42};
+    int zahlen_array[5];
+    printf("Zahlen für Array eingeben:\n");
+    for (int i=0; i<5; ++i)
+    {
+        scanf("%d", &zahlen_array[i]);
+    }
+    
+    int array_max = zahlen_array[0], array_min = zahlen_array[0];
+    int idx_max = 0, idx_min = 0;
+    
+    int array_length = sizeof(zahlen_array) / sizeof(zahlen_array[0]); 
+    //printf("Länge von Array: %d\n",array_length);
+    
+    //Max 
+    for (int i=0; i<array_length; ++i)
+    {
+        if (zahlen_array[i] > array_max)
+        {
+            array_max = zahlen_array[i];
+            idx_max = i;
+        }
+    }
+    printf("Max von Array: %d\nan der Stelle: %d\n", array_max, idx_max+1);
+    printf("===============\n");
+    
+    //Min
+    for (int i=0; i<array_length; ++i)
+    {
+        if (zahlen_array[i] < array_min)
+        {
+            array_min = zahlen_array[i];
+            idx_min = i;
+        }
+    }
+    printf("Min von Array: %d\nan der Stelle: %d\n", array_min, idx_min+1);
+    
+    array_ausgabe(zahlen_array, 5);
+    
+    return 0;
+}
+
+int array_ausgabe(int arr[], int size)
+{
+    for (int i=0; i<5; ++i)
+    {
+        printf("%d ", arr[i]);
+    }
+}

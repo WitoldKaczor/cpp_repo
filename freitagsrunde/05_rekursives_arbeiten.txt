@@ -1,0 +1,193 @@
+#include <stdio.h>
+#include <math.h>
+//freitagsrunde 
+//Rekursives arbeiten
+
+//Gibt Nachfolger des uebergebenen Wertes zurueck
+int succ(int x){
+	return ++x;
+}
+
+//Gibt den inversen Wert eines uebergebenen Wertes zurueck
+int neg(int x){
+	return -x;
+}
+
+/*-------------- Definition der Operatoren -----------------------*/
+
+//Addition zweier Zahlen
+int add(int x, int y){	
+    int sum;
+    if (y>=0)
+    {
+        sum = x;
+        for (int i=0; i<y; ++i)
+        {
+            sum = succ(sum);
+        }  
+    }
+    else if (x>=0)
+    {
+        sum = y;
+        for (int i=0; i<x; ++i)
+        {
+            sum = succ(sum);
+        }
+    }
+    else if (x<0)
+    {
+        sum = neg(x);
+        for (int i=0; i<neg(y); ++i)
+        {
+            sum = succ(sum);
+        }
+        sum = neg(sum);
+    }
+    return sum;
+}
+
+//Subtraktion
+int sub(int x, int y){
+    return add(x, neg(y));
+}
+
+//Multiplikation
+int mult(int x, int y){
+    int product;
+    if (x>=0 && y>=0)
+    {   
+        product = 0;
+        for (int i=0; i<y; ++i)
+        {
+            product = add(product, x);
+        }
+    }
+    else if (x<0 && y<0)
+    {
+        product = 0;
+        x = neg(x); y = neg(y);
+        for (int i=0; i<y; ++i)
+        {
+            product = add(product, x);
+        }
+    }
+    else if (x>=0 && y<0)
+    {
+        product = 0;
+        y = neg(y);
+        for (int i=0; i<y; ++i)
+        {
+            product = add(product, x);
+        }
+        product = neg(product);
+    }
+    else if (x<0 && y>=0)
+    {
+        product = 0;
+        x = neg(x);
+        for (int i=0; i<y; ++i)
+        {
+            product = add(product, x);
+        }
+        product = neg(product);
+    }
+    return product;
+}
+
+//Division
+int div(int x, int y){
+    int quotient = 0;
+    if (x>=0 && y>=0)
+    {
+        while (x>0)
+        {
+            x = sub(x, y);
+            ++quotient;
+        }
+    }
+    else if (x<0 && y<0)
+    {
+        x = neg(x); y = neg(y);
+        while (x>0)
+        {
+            x = sub(x, y);
+            ++quotient;
+        }
+    }
+    else if (x>=0 && y<0)
+    {
+        y = neg(y);
+        while (x>0)
+        {
+            x = sub(x, y);
+            ++quotient;
+        }
+        quotient = neg(quotient);
+    }
+    else if (x<0 && y>=0)
+    {
+        x = neg(x);
+        while (x>0)
+        {
+            x = sub(x, y);
+            ++quotient;
+        }
+        quotient = neg(quotient);
+    }
+    return quotient;
+}
+
+//Modulo
+int mod(int x, int y){
+    int modulo;
+    while (x>0)
+        {
+            x = sub(x, y);
+        }
+    return x+y;
+}
+
+//Potenziert eine angegebene Zahl mit dem angegebenen Exponenten
+int pot(int x, int y){
+    int power = 1;
+    for (int i=0; i<y; ++i)
+    {
+        power = mult(power, x);
+    }
+    return power;
+}
+
+int main(){
+    /*printf("add(3,7)  = %i\n", add(3,7)); 
+    printf("add(3,-7)  = %i\n", add(3,-7));
+	printf("add(-3,7)  = %i\n", add(-3,7)); 
+	printf("add(-3,-7)  = %i\n", add(-3,-7));*/
+	
+	/*printf("sub(3,7)  = %i\n", sub(3,7)); 
+    printf("sub(3,-7)  = %i\n", sub(3,-7));
+	printf("sub(-3,7)  = %i\n", sub(-3,7)); 
+	printf("sub(-3,-7)  = %i\n", sub(-3,-7));*/
+	
+	/*printf("mult(3,7)  = %i\n", mult(3,7)); 
+    printf("mult(3,-7)  = %i\n", mult(3,-7));
+	printf("mult(-3,7)  = %i\n", mult(-3,7)); 
+	printf("mult(-3,-7)  = %i\n", mult(-3,-7));*/
+	
+	/*printf("div(21,7) = %i\n", div(21,7));
+	printf("div(21,-7)  = %i\n", div(21,-7));
+	printf("div(-21,7)  = %i\n", div(-21,7)); 
+	printf("div(-21,-7)  = %i\n", div(-21,-7));*/
+	
+	/*printf("mod(21,8)   = %i\n", mod(21,8));
+	printf("mod(17,5)   = %i\n", mod(17,5));
+	printf("mod(20,3)   = %i\n", mod(20,3));*/
+	
+	printf("pot(-7,3)   = %i\n", pot(-7,3));
+	printf("pot(7,3)   = %i\n", pot(7,3));
+	printf("pot(-7,2)   = %i\n", pot(-7,2));
+	printf("pot(7,2)   = %i\n", pot(7,2));
+	printf("pot(-7,0)   = %i\n", pot(-7,0));
+	printf("pot(7,0)   = %i\n", pot(7,0));
+	
+	return 0;
+}
