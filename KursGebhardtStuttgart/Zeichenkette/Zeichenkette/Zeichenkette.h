@@ -15,6 +15,16 @@ public:
 	int laenge() const; // Gibt die Laenge von String aus
 	int enthaelt(Zeichenkette& z); //wie haeufig die Zeichenkette z in einer Zeichenkette enthalten ist
 
+	Zeichenkette& operator = (const Zeichenkette& obj);
+	Zeichenkette operator + (const Zeichenkette obj);
+	int operator != (const Zeichenkette& obj);
+	int operator == (const Zeichenkette& obj);
+
+
+	Zeichenkette operator << (int num); //linksbuendiges Padding
+	Zeichenkette operator >> (int num); //rechtsbuendiges Padding
+	Zeichenkette operator || (int num); //zentriertes Padding
+
 private:
 	int anzZeich;
 	char* z;

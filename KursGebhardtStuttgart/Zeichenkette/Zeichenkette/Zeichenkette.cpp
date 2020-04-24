@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Zeichenkette.h"
+#include <algorithm>
 
 Zeichenkette::Zeichenkette(const char* c_string)
 {
@@ -69,7 +70,7 @@ int Zeichenkette::enthaelt(Zeichenkette& x)
 			for (int j = 1; j < x.anzZeich; j++)
 				if (z[i + j] == x.z[j]) //Abgleich weiterer Zeichen
 					zeichCtr++;
-			
+
 			if (zeichCtr == x.anzZeich) //Alle Zeichen von x wurden in z gefunden
 				enthaeltCtr++;
 		}
@@ -77,31 +78,129 @@ int Zeichenkette::enthaelt(Zeichenkette& x)
 	return enthaeltCtr;
 }
 
+Zeichenkette& Zeichenkette::operator = (const Zeichenkette& obj)
+{
+	anzZeich = obj.anzZeich;
+	z = new char[obj.anzZeich];
+
+	for (int i = 0; i < obj.anzZeich; i++)
+		z[i] = obj.z[i];
+
+	return *this;
+}
+
+Zeichenkette Zeichenkette::operator + (const Zeichenkette obj)
+{
+	Zeichenkette erg;
+	erg.anzZeich = anzZeich + obj.anzZeich;
+	erg.z = new char[anzZeich + obj.anzZeich];
+
+	for (int i = 0; i < anzZeich; i++)
+		erg.z[i] = z[i];
+	for (int i = anzZeich; i < anzZeich + obj.anzZeich; i++)
+		erg.z[i] = obj.z[i - anzZeich];
+	return erg;
+}
+
+int Zeichenkette::operator != (const Zeichenkette& obj)
+{
+	if (anzZeich != obj.anzZeich)
+		return 1;
+	for (int i = 0; i < anzZeich; i++)
+		if (z[i] != obj.z[i])
+			return 1;
+	return 0;
+}
+
+int Zeichenkette::operator == (const Zeichenkette& obj)
+{
+	if (anzZeich != obj.anzZeich)
+		return 0;
+	for (int i = 0; i < anzZeich; i++)
+		if (z[i] != obj.z[i])
+			return 0;
+	return 1;
+}
+
+
+
+
+
+
+
+Zeichenkette Zeichenkette::operator << (int num) //linksbuendiges Padding
+{
+	Zeichenkette obj(' ', num);
+	if (anzZeich >= num)
+		for (int i = 0; i < num; i++)
+			obj.z[i] = z[i];
+	else // num > anzZeich
+		for (int i = 0; i < anzZeich; i++)
+			obj.z[i] = z[i];
+	return obj;
+}
+
+Zeichenkette Zeichenkette::operator >> (int num) //linksbuendiges Padding
+{
+	Zeichenkette obj(' ', num);
+	if (anzZeich >= num)
+		for (int i = 0; i < num; i++)
+			obj.z[i] = z[i];
+	else // num > anzZeich
+		for (int i = num - 1; i > (num - anzZeich) - 1; i--)
+			obj.z[i] = z[i - (num - anzZeich)];
+	return obj;
+}
+
+Zeichenkette Zeichenkette::operator || (int num) //zentriertes Padding
+{
+	Zeichenkette obj(' ', num);
+	if (anzZeich >= num)
+		for (int i = 0; i < num; i++)
+			obj.z[i] = z[i + ((anzZeich - num) / 2)];
+	else // num > anzZeich
+		for (int i = 0; i < anzZeich; i++)
+			obj.z[i + ((num - anzZeich) / 2)] = z[i];
+	return obj;
+}
+
 int main()
 {
-	Zeichenkette a;
-	Zeichenkette b("Hello World");
-	Zeichenkette c(b);
-	Zeichenkette d('x');
-	Zeichenkette d2("xx");
-	Zeichenkette e('x', 5);
-	Zeichenkette f("Hexxxllo Wxorld");
+	Zeichenkette a("Hello World ");
 	a.zeige();
+	Zeichenkette b;
+	b = a;
+	b.zeige();
+	Zeichenkette c;
+	c = a + b;
+	c.zeige();
+	Zeichenkette d("Test ");
+	//d += b;
+	//d.zeige();
+
+	std::cout << "a!=b " << (a != b) << std::endl;
+	std::cout << "a!=c " << (a != c) << std::endl;
+	std::cout << "a==b " << (a == b) << std::endl;
+	std::cout << "a==c " << (a == c) << std::endl;
+
+
+
+
+	/*Zeichenkette a("Hello World");
+	a.zeige();
+	Zeichenkette b = a << 5;
+	Zeichenkette c = a << 20;
+	Zeichenkette d = a >> 5;
+	Zeichenkette e = a >> 20;
+	Zeichenkette f = a || 5;
+	Zeichenkette g = a || 20;
 	b.zeige();
 	c.zeige();
 	d.zeige();
-	d2.zeige();
 	e.zeige();
 	f.zeige();
-	std::cout << "Laenge von a ist " << a.laenge() << std::endl;
-	std::cout << "Laenge von b ist " << b.laenge() << std::endl;
-	std::cout << "Laenge von c ist " << c.laenge() << std::endl;
-	std::cout << "Laenge von d ist " << d.laenge() << std::endl;
-	std::cout << "Laenge von e ist " << e.laenge() << std::endl;
+	g.zeige();*/
 
-	std::cout << "e enthaelt d2 " << e.enthaelt(d2) << " mal" << std::endl;
-	std::cout << "f enthaelt d2 " << f.enthaelt(d2) << " mal"<< std::endl;
-	
 
 	std::cin.get();
 }
