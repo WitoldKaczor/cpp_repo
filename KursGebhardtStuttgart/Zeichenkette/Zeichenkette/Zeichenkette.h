@@ -13,17 +13,23 @@ public:
 	~Zeichenkette() { delete[] z; } // Destruktor
 	void zeige() const; // Gibt String auf stdout aus mit Kommentar und Zeilenvorschub.
 	int laenge() const; // Gibt die Laenge von String aus
-	int enthaelt(Zeichenkette& z); //wie haeufig die Zeichenkette z in einer Zeichenkette enthalten ist
+	int enthaelt(Zeichenkette& x); //wie haeufig die Zeichenkette x in einer Zeichenkette enthalten ist
+	int enthaeltIdx(Zeichenkette& x); //Index der ersten Zeichenkette x in einer Zeichenkette
 
 	Zeichenkette& operator = (const Zeichenkette& obj);
 	Zeichenkette operator + (const Zeichenkette obj);
 	int operator != (const Zeichenkette& obj);
 	int operator == (const Zeichenkette& obj);
-
-
+	int operator < (const Zeichenkette& obj);
+	int operator <= (const Zeichenkette& obj);
+	int operator > (const Zeichenkette& obj);
+	int operator >= (const Zeichenkette& obj);
 	Zeichenkette operator << (int num); //linksbuendiges Padding
 	Zeichenkette operator >> (int num); //rechtsbuendiges Padding
 	Zeichenkette operator || (int num); //zentriertes Padding
+	Zeichenkette operator - (Zeichenkette& obj);
+	int operator / (Zeichenkette& obj);
+	int operator % (Zeichenkette& obj);
 
 private:
 	int anzZeich;

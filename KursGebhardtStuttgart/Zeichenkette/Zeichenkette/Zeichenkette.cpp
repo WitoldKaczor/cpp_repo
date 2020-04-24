@@ -47,7 +47,7 @@ void Zeichenkette::zeige() const
 	if (anzZeich > 0)
 		for (int i = 0; i < anzZeich; i++) std::cout << z[i];
 	std::cout << '"' << " hat ";
-	std::cout << anzZeich << " Zeichen.\n";
+	std::cout << anzZeich << " Zeichen." << std::endl;
 }
 
 int Zeichenkette::laenge() const
@@ -78,6 +78,28 @@ int Zeichenkette::enthaelt(Zeichenkette& x)
 	return enthaeltCtr;
 }
 
+int Zeichenkette::enthaeltIdx(Zeichenkette& x)
+{
+	if (x.anzZeich == 0 || x.anzZeich > anzZeich)
+		return -1;
+
+	int zeichCtr;
+	for (int i = 0; i < anzZeich; i++)
+	{
+		if (z[i] == x.z[0])
+		{
+			zeichCtr = 1; //erster Zeichen bereits abgeglichen
+			for (int j = 1; j < x.anzZeich; j++)
+				if (z[i + j] == x.z[j]) //Abgleich weiterer Zeichen
+					zeichCtr++;
+
+			if (zeichCtr == x.anzZeich) //Alle Zeichen von x wurden in z gefunden
+				return i;
+		}
+	}
+	return -1;
+}
+
 Zeichenkette& Zeichenkette::operator = (const Zeichenkette& obj)
 {
 	anzZeich = obj.anzZeich;
@@ -97,8 +119,8 @@ Zeichenkette Zeichenkette::operator + (const Zeichenkette obj)
 
 	for (int i = 0; i < anzZeich; i++)
 		erg.z[i] = z[i];
-	for (int i = anzZeich; i < anzZeich + obj.anzZeich; i++)
-		erg.z[i] = obj.z[i - anzZeich];
+	for (int i = 0; i < obj.anzZeich; i++)
+		erg.z[i + anzZeich] = obj.z[i];
 	return erg;
 }
 
@@ -122,11 +144,37 @@ int Zeichenkette::operator == (const Zeichenkette& obj)
 	return 1;
 }
 
+int Zeichenkette::operator < (const Zeichenkette& obj)
+{
+	if (anzZeich < obj.anzZeich)
+		return 1;
+	else
+		return 0;
+}
 
+int Zeichenkette::operator <= (const Zeichenkette& obj)
+{
+	if (anzZeich <= obj.anzZeich)
+		return 1;
+	else
+		return 0;
+}
 
+int Zeichenkette::operator > (const Zeichenkette& obj)
+{
+	if (anzZeich > obj.anzZeich)
+		return 1;
+	else
+		return 0;
+}
 
-
-
+int Zeichenkette::operator >= (const Zeichenkette& obj)
+{
+	if (anzZeich >= obj.anzZeich)
+		return 1;
+	else
+		return 0;
+}
 
 Zeichenkette Zeichenkette::operator << (int num) //linksbuendiges Padding
 {
@@ -164,6 +212,39 @@ Zeichenkette Zeichenkette::operator || (int num) //zentriertes Padding
 	return obj;
 }
 
+Zeichenkette Zeichenkette::operator - (Zeichenkette& obj)
+{
+	// obj nicht enthalten, keine Substraktion
+	if (this->enthaelt(obj) == 0)
+		return *this;
+
+	// obj enthalten, obj str aus der aktuellen Instanz löschen
+	Zeichenkette erg;
+	erg = *this;
+
+	for (int i = this->enthaeltIdx(obj); i < obj.anzZeich + this->enthaeltIdx(obj); i++)
+	{
+		if (i + obj.anzZeich < erg.anzZeich)
+			erg.z[i] = erg.z[i + obj.anzZeich];
+		else
+		{
+			erg.anzZeich = this->anzZeich - obj.anzZeich;
+			continue;
+		}
+	}
+	return erg;
+}
+
+int Zeichenkette::operator / (Zeichenkette& obj)
+{
+	return this->enthaelt(obj);
+}
+
+int Zeichenkette::operator % (Zeichenkette& obj)
+{
+	return this->enthaeltIdx(obj);
+}
+
 int main()
 {
 	Zeichenkette a("Hello World ");
@@ -174,33 +255,38 @@ int main()
 	Zeichenkette c;
 	c = a + b;
 	c.zeige();
-	Zeichenkette d("Test ");
-	//d += b;
-	//d.zeige();
-
-	std::cout << "a!=b " << (a != b) << std::endl;
-	std::cout << "a!=c " << (a != c) << std::endl;
-	std::cout << "a==b " << (a == b) << std::endl;
-	std::cout << "a==c " << (a == c) << std::endl;
 
 
-
-
-	/*Zeichenkette a("Hello World");
-	a.zeige();
-	Zeichenkette b = a << 5;
-	Zeichenkette c = a << 20;
-	Zeichenkette d = a >> 5;
-	Zeichenkette e = a >> 20;
-	Zeichenkette f = a || 5;
-	Zeichenkette g = a || 20;
-	b.zeige();
-	c.zeige();
-	d.zeige();
+	Zeichenkette e1("World");
+	Zeichenkette e("Hello World");
+	Zeichenkette f("Hello World");
+	e = e - e1;
 	e.zeige();
+	f = f - c;
 	f.zeige();
-	g.zeige();*/
 
 
+	std::cout << "a != b " << (a != b) << std::endl;
+	std::cout << "a != c " << (a != c) << std::endl;
+	std::cout << "a == b " << (a == b) << std::endl;
+	std::cout << "a == c " << (a == c) << std::endl;
+	std::cout << "a < b " << (a < b) << std::endl;
+	std::cout << "a < c " << (a < c) << std::endl;
+	std::cout << "a <= b " << (a <= b) << std::endl;
+	std::cout << "a <= c " << (a <= c) << std::endl;
+	std::cout << "a > b " << (a > b) << std::endl;
+	std::cout << "a > c " << (a > c) << std::endl;
+	std::cout << "a >= b " << (a >= b) << std::endl;
+	std::cout << "a >= c " << (a >= c) << std::endl;
+	std::cout << "c / a " << (c / a) << std::endl;
+	std::cout << "e / f " << (e / f) << std::endl;
+	std::cout << "c % a " << (c % a) << std::endl;
+	std::cout << "e % f " << (e % f) << std::endl;
+
+	std::cout << c.enthaeltIdx(a) << std::endl;
+	std::cout << f.enthaeltIdx(c) << std::endl;
+	std::cout << f.enthaeltIdx(e1) << std::endl;
+
+	
 	std::cin.get();
 }
