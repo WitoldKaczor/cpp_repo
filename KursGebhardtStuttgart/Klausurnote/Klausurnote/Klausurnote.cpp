@@ -9,20 +9,23 @@ public:
 
     Klausurnote() { ctrAllObjects++; ctrExstObjects++; std::cout << "Objekt angelegt. Adresse: " << this << std::endl; } // default Konstruktor
 
-    Klausurnote(double noteInputNum) //Konstruktor
+    Klausurnote(double noteInputNum) //Konstruktor1
     {
-        if (noteInputNum >= 1 && noteInputNum <= 5)
-        {
-            double noteInputNum1 = floor(noteInputNum);
-            double noteInputNum2 = (noteInputNum - noteInputNum1) * 10;
-            note[0] = noteInputNum1 + 48; note[1] = ','; note[2] = noteInputNum2 + 48;
-            Klausurnote::set(note);
-        }
-        else
-        {
-            std::cout << "Ungültige Note\n";
-            note[0] = '0'; note[1] = ','; note[2] = '0';
-        }
+        Klausurnote::set(noteInputNum);
+        ctrAllObjects++; ctrExstObjects++;
+        std::cout << "Objekt angelegt. Adresse: " << this << std::endl;
+    }
+
+    Klausurnote(const char* noteInput) //Konstruktor2
+    {
+        Klausurnote::set(noteInput);
+        ctrAllObjects++; ctrExstObjects++;
+        std::cout << "Objekt angelegt. Adresse: " << this << std::endl;
+    }
+
+    Klausurnote(int noteInput1, int noteInput2) //Konstruktor3
+    {
+        Klausurnote::set(noteInput1, noteInput2);
         ctrAllObjects++; ctrExstObjects++;
         std::cout << "Objekt angelegt. Adresse: " << this << std::endl;
     }
@@ -35,7 +38,7 @@ public:
         ctrAllObjects++; ctrExstObjects++; std::cout << "Objekt angelegt. Adresse: " << this << std::endl;
     }
 
-    ~Klausurnote() { ctrExstObjects--; std::cout << "Objekt zerstört. Adresse: " << this << std::endl; } //Dekonstruktor
+    ~Klausurnote() { ctrExstObjects--; std::cout << "Objekt vernichetet. Adresse: " << this << std::endl; } //Dekonstruktor
 
     int set(const char* noteInput)
     {
@@ -68,6 +71,40 @@ public:
             else
                 note[2] = noteInput[2];
             return 0;
+        }
+    }
+
+    int set(double noteInput)
+    {
+        if (noteInput >= 1 && noteInput <= 5)
+        {
+            double noteInput1 = floor(noteInput);
+            double noteInput2 = (noteInput - noteInput1) * 10;
+            note[0] = noteInput1 + 48; note[1] = ','; note[2] = noteInput2 + 48;
+            Klausurnote::set(note);
+            return 0;
+        }
+        else
+        {
+            std::cout << "Ungültige Note\n";
+            note[0] = '0'; note[1] = ','; note[2] = '0';
+            return -1;
+        }
+    }
+
+    int set(int noteInput1, int noteInput2)
+    {
+        if (noteInput1 >= 1 && noteInput1 <= 5)
+        {
+            note[0] = noteInput1 + 48; note[1] = ','; note[2] = noteInput2 + 48;
+            Klausurnote::set(note);
+            return 0;
+        }
+        else
+        {
+            std::cout << "Ungültige Note\n";
+            note[0] = '0'; note[1] = ','; note[2] = '0';
+            return -1;
         }
     }
 
@@ -172,31 +209,33 @@ int main()
     bio.druckeNumerisch();
     bio.druckeVerbal();
 
-    Klausurnote::printCtr();
-
-    Klausurnote mat(3.8);
-    mat.druckeNumerisch();
-    mat.druckeVerbal();
+    bio.set(3.5);
+    bio.druckeNumerisch();
+    bio.druckeVerbal();
 
     Klausurnote::printCtr();
 
     {
-        Klausurnote f;
-        f = f.plus2(bio, mat);
-        f.druckeNumerisch();
-        f.druckeVerbal();
-        Klausurnote::printCtr();
+        Klausurnote mat("1,4");
+        mat.druckeNumerisch();
+        mat.druckeVerbal();
+
+        mat.set("3,5");
+        mat.druckeNumerisch();
+        mat.druckeVerbal();
     }
 
     Klausurnote::printCtr();
 
-    Klausurnote g;
-    g.plus2(bio, mat);
-    g.druckeNumerisch();
-    g.druckeVerbal();
+    Klausurnote phys(1, 4);
+    phys.druckeNumerisch();
+    phys.druckeVerbal();
+
+    phys.set(3, 5);
+    phys.druckeNumerisch();
+    phys.druckeVerbal();
 
     Klausurnote::printCtr();
-
 
 
     std::cin.get();
