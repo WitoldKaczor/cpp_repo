@@ -4,8 +4,10 @@
 class Klausurnote
 {
 public:
+    static int ctrAllObjects;
+    static int ctrExstObjects;
 
-    Klausurnote() {} // default Konstruktor
+    Klausurnote() { ctrAllObjects++; ctrExstObjects++; std::cout << "Objekt angelegt. Adresse: " << this << std::endl; } // default Konstruktor
 
     Klausurnote(double noteInputNum) //Konstruktor
     {
@@ -21,13 +23,19 @@ public:
             std::cout << "Ungültige Note\n";
             note[0] = '0'; note[1] = ','; note[2] = '0';
         }
+        ctrAllObjects++; ctrExstObjects++;
+        std::cout << "Objekt angelegt. Adresse: " << this << std::endl;
     }
 
     Klausurnote(const Klausurnote& andereNote) //Copy Konstruktor
     {
         for (int i = 0; i < 3; i++)
             note[i] = andereNote.note[i];
+
+        ctrAllObjects++; ctrExstObjects++; std::cout << "Objekt angelegt. Adresse: " << this << std::endl;
     }
+
+    ~Klausurnote() { ctrExstObjects--; std::cout << "Objekt zerstört. Adresse: " << this << std::endl; } //Dekonstruktor
 
     int set(const char* noteInput)
     {
@@ -45,12 +53,6 @@ public:
             note[0] = '0'; note[1] = ','; note[2] = '0';
             return -1;
         }
-        /*else if (noteInput[2] != '0' && noteInput[2] != '3' && noteInput[2] != '7' && noteInput[1] != '\0' && noteInput[2] != '\0')
-        {
-            std::cout << "Ungültige Note\n";
-            note[0] = '0'; note[1] = ','; note[2] = '0';
-            return -1;
-        }*/
         else if ((noteInput[0] == '4' || noteInput[0] == '5') && (noteInput[2] != '0' && noteInput[1] != '\0' && noteInput[2] != '\0'))
         {
             std::cout << "Ungültige Note\n";
@@ -84,10 +86,6 @@ public:
     const char* getVerbal()
     {
         const char* noteVerbal = "Ungültige Note";
-        /*if ((int)note[0] == 48)
-            noteVerbal = "Ungültige Note";
-        else
-        {*/
         float noteNum = (float)note[0] - 48 + ((float)note[2] - 48) / 10;
         if (noteNum > 0.99 && noteNum < 1.6)
             noteVerbal = "sehr gut";
@@ -99,7 +97,7 @@ public:
             noteVerbal = "ausreichend";
         else if (noteNum >= 4.9)
             noteVerbal = "nicht ausreichend";
-        //}
+
         return noteVerbal;
     }
     void druckeVerbal()
@@ -123,6 +121,21 @@ public:
 
     friend Klausurnote plusFr(const Klausurnote& eineNote, const Klausurnote& andereNote);
 
+    Klausurnote plus2(const Klausurnote& eineNote, const Klausurnote& andereNote)
+    {
+        float noteNum = (float)eineNote.note[0] - 48 + ((float)eineNote.note[2] - 48) / 10;
+        float andereNoteNum = (float)andereNote.note[0] - 48 + ((float)andereNote.note[2] - 48) / 10;
+        float mittelwert = (noteNum + andereNoteNum) / 2;
+
+        float mittelwert1 = floor(mittelwert);
+        float mittelwert2 = (mittelwert - mittelwert1) * 10;
+
+        note[0] = mittelwert1 + 48; note[1] = ','; note[2] = mittelwert2 + 48; note[3] = 0;
+        return *this;
+    }
+
+    static void printCtr();
+
 private:
     char note[4] = { '0',',','0',0 }; // Initialisierung auf eine ungültige Note
 };
@@ -142,31 +155,49 @@ Klausurnote plusFr(const Klausurnote& eineNote, const Klausurnote& andereNote)
     return obj;
 }
 
+void Klausurnote::printCtr()
+{
+    std::cout << "All Object Number: " << ctrAllObjects << std::endl;
+    std::cout << "Exstng Object Number: " << ctrExstObjects << std::endl << std::endl;
+}
+
+int Klausurnote::ctrAllObjects = 0;
+int Klausurnote::ctrExstObjects = 0;
 
 int main()
 {
+    Klausurnote::printCtr();
+
     Klausurnote bio(1.4);
     bio.druckeNumerisch();
     bio.druckeVerbal();
+
+    Klausurnote::printCtr();
 
     Klausurnote mat(3.8);
     mat.druckeNumerisch();
     mat.druckeVerbal();
 
-    Klausurnote c;
-    c = bio.plus(mat);
-    c.druckeNumerisch();
-    c.druckeVerbal();
+    Klausurnote::printCtr();
 
-    Klausurnote d;
-    d = plusFr(bio, mat);
-    d.druckeNumerisch();
-    d.druckeVerbal();
+    {
+        Klausurnote f;
+        f = f.plus2(bio, mat);
+        f.druckeNumerisch();
+        f.druckeVerbal();
+        Klausurnote::printCtr();
+    }
 
-    Klausurnote e;
-    e = plusFr(1.4, 3.8);
-    e.druckeNumerisch();
-    e.druckeVerbal();
+    Klausurnote::printCtr();
+
+    Klausurnote g;
+    g.plus2(bio, mat);
+    g.druckeNumerisch();
+    g.druckeVerbal();
+
+    Klausurnote::printCtr();
+
+
 
     std::cin.get();
 }
