@@ -1,9 +1,32 @@
 #include <iostream>
+//#include <math.h>
 
 class Klausurnote
 {
     // Noten zwischen 1,0 und 5,0, mit der Dezimalstelle 0, 3 oder 7 möglich
 public:
+
+    Klausurnote(double noteInputNum) //Konstruktor
+    {
+        if (noteInputNum >= 1 && noteInputNum <= 5)
+        {
+            double noteInputNum1 = floor(noteInputNum);
+            double noteInputNum2 = (noteInputNum - noteInputNum1) * 10;
+            note[0] = noteInputNum1 + 48; note[1] = ','; note[2] = noteInputNum2 + 48;
+            Klausurnote::set(note);
+        }
+        else
+        {
+            std::cout << "Ungültige Note\n";
+            note[0] = '0'; note[1] = ','; note[2] = '0';
+        }
+    }
+
+    Klausurnote(const Klausurnote& andereNote) //Copy Konstruktor
+    {
+        for (int i = 0; i < 3; i++)
+            note[i] = andereNote.note[i];
+    }
 
     int set(const char* noteInput)
     {
@@ -12,33 +35,25 @@ public:
         if (n == 0 || n > 3 || (n > 1 && noteInput[1] != ','))
         {
             std::cout << "Ungültige Note\n";
-            note[0] = '0';
-            note[1] = ',';
-            note[2] = '0';
+            note[0] = '0'; note[1] = ','; note[2] = '0';
             return -1;
         }
         else if (noteInput[0] != '1' && noteInput[0] != '2' && noteInput[0] != '3' && noteInput[0] != '4' && noteInput[0] != '5')
         {
             std::cout << "Ungültige Note\n";
-            note[0] = '0';
-            note[1] = ',';
-            note[2] = '0';
+            note[0] = '0'; note[1] = ','; note[2] = '0';
             return -1;
         }
         else if (noteInput[2] != '0' && noteInput[2] != '3' && noteInput[2] != '7' && noteInput[1] != '\0' && noteInput[2] != '\0')
         {
             std::cout << "Ungültige Note\n";
-            note[0] = '0';
-            note[1] = ',';
-            note[2] = '0';
+            note[0] = '0'; note[1] = ','; note[2] = '0';
             return -1;
         }
         else if ((noteInput[0] == '4' || noteInput[0] == '5') && (noteInput[2] != '0' && noteInput[1] != '\0' && noteInput[2] != '\0'))
         {
             std::cout << "Ungültige Note\n";
-            note[0] = '0';
-            note[1] = ',';
-            note[2] = '0';
+            note[0] = '0'; note[1] = ','; note[2] = '0';
             return -1;
         }
         else
@@ -97,33 +112,40 @@ private:
 
 int main()
 {
-    Klausurnote bio;
-    /* bio.set("1,0");
-     bio.druckeNumerisch();
-     bio.druckeVerbal();
+    Klausurnote bio(1);
+    bio.druckeNumerisch();
+    bio.druckeVerbal();
 
-     bio.set("1,7");
-     bio.druckeNumerisch();
-     bio.druckeVerbal();
+    Klausurnote mat(1.7);
+    mat.druckeNumerisch();
+    mat.druckeVerbal();
 
-     bio.set("3,3");
-     bio.druckeNumerisch();
-     bio.druckeVerbal();
+    Klausurnote mat1(2.2);
+    mat1.druckeNumerisch();
+    mat1.druckeVerbal();
 
-     bio.set("4,");
-     bio.druckeNumerisch();
-     bio.druckeVerbal();
+    Klausurnote mat2(3.7);
+    mat2.druckeNumerisch();
+    mat2.druckeVerbal();
 
-     bio.set("5");
-     bio.druckeNumerisch();
-     bio.druckeVerbal();*/
+    Klausurnote mat3(3.8);
+    mat3.druckeNumerisch();
+    mat3.druckeVerbal();
 
-    char buf[10];
-    while (1)
-    {
-        std::cout << "Bitte Note eingeben: "; std::cin >> buf;
-        bio.set(buf);
-        bio.druckeNumerisch();
-        bio.druckeVerbal();
-    }
+    Klausurnote bio2(4.);
+    bio2.druckeNumerisch();
+    bio2.druckeVerbal();
+
+    Klausurnote bio3(5.0);
+    bio3.druckeNumerisch();
+    bio3.druckeVerbal();
+
+    //
+    Klausurnote bio4(bio3);
+    bio4.druckeNumerisch();
+    bio4.druckeVerbal();
+
+
+
+    std::cin.get();
 }
