@@ -3,8 +3,9 @@
 
 class Klausurnote
 {
-    // Noten zwischen 1,0 und 5,0, mit der Dezimalstelle 0, 3 oder 7 möglich
 public:
+
+    Klausurnote() {} // default Konstruktor
 
     Klausurnote(double noteInputNum) //Konstruktor
     {
@@ -44,12 +45,12 @@ public:
             note[0] = '0'; note[1] = ','; note[2] = '0';
             return -1;
         }
-        else if (noteInput[2] != '0' && noteInput[2] != '3' && noteInput[2] != '7' && noteInput[1] != '\0' && noteInput[2] != '\0')
+        /*else if (noteInput[2] != '0' && noteInput[2] != '3' && noteInput[2] != '7' && noteInput[1] != '\0' && noteInput[2] != '\0')
         {
             std::cout << "Ungültige Note\n";
             note[0] = '0'; note[1] = ','; note[2] = '0';
             return -1;
-        }
+        }*/
         else if ((noteInput[0] == '4' || noteInput[0] == '5') && (noteInput[2] != '0' && noteInput[1] != '\0' && noteInput[2] != '\0'))
         {
             std::cout << "Ungültige Note\n";
@@ -88,15 +89,15 @@ public:
         else
         {*/
         float noteNum = (float)note[0] - 48 + ((float)note[2] - 48) / 10;
-        if (noteNum > 0.9 && noteNum < 1.4)
+        if (noteNum > 0.99 && noteNum < 1.6)
             noteVerbal = "sehr gut";
-        else if (noteNum > 1.6 && noteNum < 2.4)
+        else if (noteNum >= 1.6 && noteNum < 2.6)
             noteVerbal = "gut";
-        else if (noteNum > 2.6 && noteNum < 3.4)
+        else if (noteNum >= 2.6 && noteNum < 3.6)
             noteVerbal = "befriedigend";
-        else if (noteNum > 3.6 && noteNum < 4.1)
+        else if (noteNum >= 3.6 && noteNum < 4.9)
             noteVerbal = "ausreichend";
-        else if (noteNum > 4.9)
+        else if (noteNum >= 4.9)
             noteVerbal = "nicht ausreichend";
         //}
         return noteVerbal;
@@ -106,46 +107,66 @@ public:
         std::cout << getVerbal() << "\n";
     }
 
+    Klausurnote plus(const Klausurnote& andereNote)
+    {
+        float noteNum = (float)note[0] - 48 + ((float)note[2] - 48) / 10;
+        float andereNoteNum = (float)andereNote.note[0] - 48 + ((float)andereNote.note[2] - 48) / 10;
+        float mittelwert = (noteNum + andereNoteNum) / 2;
+
+        float mittelwert1 = floor(mittelwert);
+        float mittelwert2 = (mittelwert - mittelwert1) * 10;
+
+        Klausurnote obj(1.0); // Initialisierung auf einen gültigen Wert
+        obj.note[0] = mittelwert1 + 48; obj.note[1] = ','; obj.note[2] = mittelwert2 + 48; obj.note[3] = 0;
+        return obj;
+    }
+
+    friend Klausurnote plusFr(const Klausurnote& eineNote, const Klausurnote& andereNote);
+
 private:
     char note[4] = { '0',',','0',0 }; // Initialisierung auf eine ungültige Note
 };
 
+
+Klausurnote plusFr(const Klausurnote& eineNote, const Klausurnote& andereNote)
+{
+    float noteNum = (float)eineNote.note[0] - 48 + ((float)eineNote.note[2] - 48) / 10;
+    float andereNoteNum = (float)andereNote.note[0] - 48 + ((float)andereNote.note[2] - 48) / 10;
+    float mittelwert = (noteNum + andereNoteNum) / 2;
+
+    float mittelwert1 = floor(mittelwert);
+    float mittelwert2 = (mittelwert - mittelwert1) * 10;
+
+    Klausurnote obj(1.0); // Initialisierung auf einen gültigen Wert
+    obj.note[0] = mittelwert1 + 48; obj.note[1] = ','; obj.note[2] = mittelwert2 + 48; obj.note[3] = 0;
+    return obj;
+}
+
+
 int main()
 {
-    Klausurnote bio(1);
+    Klausurnote bio(1.4);
     bio.druckeNumerisch();
     bio.druckeVerbal();
 
-    Klausurnote mat(1.7);
+    Klausurnote mat(3.8);
     mat.druckeNumerisch();
     mat.druckeVerbal();
 
-    Klausurnote mat1(2.2);
-    mat1.druckeNumerisch();
-    mat1.druckeVerbal();
+    Klausurnote c;
+    c = bio.plus(mat);
+    c.druckeNumerisch();
+    c.druckeVerbal();
 
-    Klausurnote mat2(3.7);
-    mat2.druckeNumerisch();
-    mat2.druckeVerbal();
+    Klausurnote d;
+    d = plusFr(bio, mat);
+    d.druckeNumerisch();
+    d.druckeVerbal();
 
-    Klausurnote mat3(3.8);
-    mat3.druckeNumerisch();
-    mat3.druckeVerbal();
-
-    Klausurnote bio2(4.);
-    bio2.druckeNumerisch();
-    bio2.druckeVerbal();
-
-    Klausurnote bio3(5.0);
-    bio3.druckeNumerisch();
-    bio3.druckeVerbal();
-
-    //
-    Klausurnote bio4(bio3);
-    bio4.druckeNumerisch();
-    bio4.druckeVerbal();
-
-
+    Klausurnote e;
+    e = plusFr(1.4, 3.8);
+    e.druckeNumerisch();
+    e.druckeVerbal();
 
     std::cin.get();
 }
