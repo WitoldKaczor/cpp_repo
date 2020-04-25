@@ -11,10 +11,12 @@ Zeichenkette::Zeichenkette(const char* c_string)
 	if (anzZeich > 0)
 	{
 		// kopiere string
-		z = new char[anzZeich];
+		z = new char[anzZeich+1];
 		for (i = 0; i < anzZeich; i++) z[i] = c_string[i];
+		z[anzZeich] = 0;
 	}
-	else z = new char[1]; // damit leere zeichenketten bezueglich zerstoerung konsistent sind .
+	else 
+		z = new char[1]; // damit leere zeichenketten bezueglich zerstoerung konsistent sind .
 }
 
 Zeichenkette::Zeichenkette(const Zeichenkette& Z)
@@ -36,9 +38,10 @@ Zeichenkette::Zeichenkette(const Zeichenkette& Z)
 Zeichenkette::Zeichenkette(const char C_Char, int num = 1)
 {
 	anzZeich = num; // weil ein char
-	z = new char[num]; // memory allocation
+	z = new char[num+1]; // memory allocation
 	for (int i = 0; i < num; i++)
 		z[i] = C_Char; // zuweisung
+	z[num] = 0;
 }
 
 void Zeichenkette::zeige() const
@@ -105,7 +108,7 @@ Zeichenkette& Zeichenkette::operator = (const Zeichenkette& obj)
 	anzZeich = obj.anzZeich;
 	z = new char[obj.anzZeich];
 
-	for (int i = 0; i < obj.anzZeich; i++)
+	for (int i = 0; i < obj.anzZeich+1; i++)
 		z[i] = obj.z[i];
 
 	return *this;
@@ -113,18 +116,35 @@ Zeichenkette& Zeichenkette::operator = (const Zeichenkette& obj)
 
 Zeichenkette Zeichenkette::operator + (const Zeichenkette obj)
 {
-	Zeichenkette erg;
-	erg.anzZeich = anzZeich + obj.anzZeich;
-	erg.z = new char[anzZeich + obj.anzZeich];
-
-	for (int i = 0; i < anzZeich; i++)
-		erg.z[i] = z[i];
-	for (int i = 0; i < obj.anzZeich; i++)
-		erg.z[i + anzZeich] = obj.z[i];
-	return erg;
+	char* tmpChar = new char[anzZeich + obj.anzZeich + 1];
+	for (int i = 0; i < anzZeich; ++i)
+		tmpChar[i] = z[i];
+	for (int j = anzZeich; j < anzZeich + obj.anzZeich; ++j)
+		tmpChar[j] = obj.z[j - anzZeich];
+	tmpChar[anzZeich + obj.anzZeich] = 0;
+	return Zeichenkette(tmpChar);
 }
 
-int Zeichenkette::operator != (const Zeichenkette& obj)
+void Zeichenkette::operator += (const Zeichenkette& obj)
+{
+	char* tmpChar = new char[anzZeich + obj.anzZeich];
+	for (int i = 0; i < anzZeich; ++i)
+		tmpChar[i] = z[i];
+	for (int j = anzZeich; j < anzZeich + obj.anzZeich; ++j)
+		tmpChar[j] = obj.z[j - anzZeich];
+
+	delete[] z;
+
+	char* z = new char[anzZeich + obj.anzZeich];
+
+	for (int i = 0; i < anzZeich + obj.anzZeich; ++i)
+		z[i] = tmpChar[i];
+
+	delete[] tmpChar;
+	anzZeich += obj.anzZeich;
+}
+
+bool Zeichenkette::operator != (const Zeichenkette& obj)
 {
 	if (anzZeich != obj.anzZeich)
 		return 1;
@@ -134,7 +154,7 @@ int Zeichenkette::operator != (const Zeichenkette& obj)
 	return 0;
 }
 
-int Zeichenkette::operator == (const Zeichenkette& obj)
+bool Zeichenkette::operator == (const Zeichenkette& obj)
 {
 	if (anzZeich != obj.anzZeich)
 		return 0;
@@ -144,7 +164,7 @@ int Zeichenkette::operator == (const Zeichenkette& obj)
 	return 1;
 }
 
-int Zeichenkette::operator < (const Zeichenkette& obj)
+bool Zeichenkette::operator < (const Zeichenkette& obj)
 {
 	if (anzZeich < obj.anzZeich)
 		return 1;
@@ -152,7 +172,7 @@ int Zeichenkette::operator < (const Zeichenkette& obj)
 		return 0;
 }
 
-int Zeichenkette::operator <= (const Zeichenkette& obj)
+bool Zeichenkette::operator <= (const Zeichenkette& obj)
 {
 	if (anzZeich <= obj.anzZeich)
 		return 1;
@@ -160,7 +180,7 @@ int Zeichenkette::operator <= (const Zeichenkette& obj)
 		return 0;
 }
 
-int Zeichenkette::operator > (const Zeichenkette& obj)
+bool Zeichenkette::operator > (const Zeichenkette& obj)
 {
 	if (anzZeich > obj.anzZeich)
 		return 1;
@@ -168,7 +188,7 @@ int Zeichenkette::operator > (const Zeichenkette& obj)
 		return 0;
 }
 
-int Zeichenkette::operator >= (const Zeichenkette& obj)
+bool Zeichenkette::operator >= (const Zeichenkette& obj)
 {
 	if (anzZeich >= obj.anzZeich)
 		return 1;
@@ -214,25 +234,34 @@ Zeichenkette Zeichenkette::operator || (int num) //zentriertes Padding
 
 Zeichenkette Zeichenkette::operator - (Zeichenkette& obj)
 {
-	// obj nicht enthalten, keine Substraktion
-	if (this->enthaelt(obj) == 0)
-		return *this;
-
-	// obj enthalten, obj str aus der aktuellen Instanz löschen
-	Zeichenkette erg;
-	erg = *this;
-
-	for (int i = this->enthaeltIdx(obj); i < obj.anzZeich + this->enthaeltIdx(obj); i++)
+	if (this->enthaelt(obj) != 0)
 	{
-		if (i + obj.anzZeich < erg.anzZeich)
-			erg.z[i] = erg.z[i + obj.anzZeich];
-		else
+		int idx = this->enthaeltIdx(obj);
+		char* tmpChar = new char[anzZeich - obj.anzZeich];
+		for (int i = 0; i < idx; i++)
+			tmpChar[i] = z[i];
+		for (int i = idx; i < anzZeich; i++)
 		{
-			erg.anzZeich = this->anzZeich - obj.anzZeich;
-			continue;
+			tmpChar[i] = z[i + obj.anzZeich];
+			if (i >= anzZeich - obj.anzZeich) continue;
 		}
+		return Zeichenkette(tmpChar);
 	}
-	return erg;
+	return *this;
+}
+
+void Zeichenkette::operator -= (Zeichenkette& obj)
+{
+	if (this->enthaelt(obj) != 0)
+	{
+		int idx = this->enthaeltIdx(obj);
+		for (int i = idx; i < anzZeich; i++)
+		{
+			z[i] = z[i + obj.anzZeich];
+			if (i >= anzZeich - obj.anzZeich) continue;
+		}
+	anzZeich -= obj.anzZeich;	
+	}
 }
 
 int Zeichenkette::operator / (Zeichenkette& obj)
@@ -248,45 +277,52 @@ int Zeichenkette::operator % (Zeichenkette& obj)
 int main()
 {
 	Zeichenkette a("Hello World ");
-	a.zeige();
+	std::cout << "a:  "; a.zeige();
 	Zeichenkette b;
 	b = a;
-	b.zeige();
+	std::cout << "b:  "; b.zeige();
 	Zeichenkette c;
-	c = a + b;
-	c.zeige();
+	c = a + "!";
+	std::cout << "c:  "; c.zeige();
 
-
-	Zeichenkette e1("World");
-	Zeichenkette e("Hello World");
-	Zeichenkette f("Hello World");
-	e = e - e1;
-	e.zeige();
+	Zeichenkette d("Hello ");
+	Zeichenkette e1("rld");
+	Zeichenkette e("World record");
+	Zeichenkette f("John Doe");
+	Zeichenkette g("ohn");
+	d += e1;
+	std::cout << "d:  "; d.zeige();
+	e -= e1;
+	std::cout << "e:  "; e.zeige();
+	e -= d;
+	std::cout << "e:  "; e.zeige();
+	f = f - g;
+	std::cout << "f:  "; f.zeige();
 	f = f - c;
-	f.zeige();
+	std::cout << "f:  "; f.zeige();
+	f = c - e1;
+	std::cout << "f:  "; f.zeige();
 
 
-	std::cout << "a != b " << (a != b) << std::endl;
-	std::cout << "a != c " << (a != c) << std::endl;
-	std::cout << "a == b " << (a == b) << std::endl;
-	std::cout << "a == c " << (a == c) << std::endl;
-	std::cout << "a < b " << (a < b) << std::endl;
-	std::cout << "a < c " << (a < c) << std::endl;
-	std::cout << "a <= b " << (a <= b) << std::endl;
-	std::cout << "a <= c " << (a <= c) << std::endl;
-	std::cout << "a > b " << (a > b) << std::endl;
-	std::cout << "a > c " << (a > c) << std::endl;
-	std::cout << "a >= b " << (a >= b) << std::endl;
-	std::cout << "a >= c " << (a >= c) << std::endl;
-	std::cout << "c / a " << (c / a) << std::endl;
-	std::cout << "e / f " << (e / f) << std::endl;
-	std::cout << "c % a " << (c % a) << std::endl;
-	std::cout << "e % f " << (e % f) << std::endl;
+	std::cout << "===================================" << std::endl;
+	std::cout << "a != b \t" << (a != b) << std::endl;
+	std::cout << "a != c \t" << (a != c) << std::endl;
+	std::cout << "a == b \t" << (a == b) << std::endl;
+	std::cout << "a == c \t" << (a == c) << std::endl;
+	std::cout << "a < b \t" << (a < b) << std::endl;
+	std::cout << "a < c \t" << (a < c) << std::endl;
+	std::cout << "a <= b \t" << (a <= b) << std::endl;
+	std::cout << "a <= c \t" << (a <= c) << std::endl;
+	std::cout << "a > b \t" << (a > b) << std::endl;
+	std::cout << "a > c \t" << (a > c) << std::endl;
+	std::cout << "a >= b \t" << (a >= b) << std::endl;
+	std::cout << "a >= c \t" << (a >= c) << std::endl;
+	std::cout << "c / a \t" << (c / a) << std::endl;
+	std::cout << "e / f \t" << (e / f) << std::endl;
+	std::cout << "c % a \t" << (c % a) << std::endl;
+	std::cout << "e % f \t" << (e % f) << std::endl;
 
-	std::cout << c.enthaeltIdx(a) << std::endl;
-	std::cout << f.enthaeltIdx(c) << std::endl;
-	std::cout << f.enthaeltIdx(e1) << std::endl;
 
-	
+
 	std::cin.get();
 }
