@@ -1,5 +1,4 @@
 #include <iostream>
-//#include <math.h>
 
 class Klausurnote
 {
@@ -150,10 +149,8 @@ public:
 
         float mittelwert1 = floor(mittelwert);
         float mittelwert2 = (mittelwert - mittelwert1) * 10;
-
-        Klausurnote obj(1.0); // Initialisierung auf einen gültigen Wert
-        obj.note[0] = mittelwert1 + 48; obj.note[1] = ','; obj.note[2] = mittelwert2 + 48; obj.note[3] = 0;
-        return obj;
+        
+        return Klausurnote((int)mittelwert1, (int)mittelwert2);
     }
 
     friend Klausurnote plusFr(const Klausurnote& eineNote, const Klausurnote& andereNote);
@@ -173,6 +170,77 @@ public:
 
     static void printCtr();
 
+    Klausurnote operator + (const Klausurnote& andereNote)
+    {
+        return this->plus(andereNote);
+    }
+
+    void operator = (const Klausurnote& andereNote)
+    {
+        this->note[0] = andereNote.note[0];
+        this->note[2] = andereNote.note[2];
+    }
+
+    void operator += (const Klausurnote& andereNote)
+    {
+        *this = this->plus(andereNote);
+    }
+
+    double operator * (double factor)
+    {
+        double noteNum = (double)note[0] - 48 + ((double)note[2] - 48) / 10;
+        noteNum *= factor;
+        return noteNum;
+    }
+
+    operator double() const //castoperator nach double 
+    {
+        double noteNum = (double)note[0] - 48 + ((double)note[2] - 48) / 10;
+        return noteNum;
+    }
+
+    void operator () (int x, int y=0)
+    {
+        this->set(x, y);
+    }
+
+    bool operator == (const Klausurnote& andereNote)
+    {
+        return (double)*this == (double)andereNote;
+    }
+
+    bool operator < (const Klausurnote& andereNote)
+    {
+        return (double)*this < (double)andereNote;
+    }
+
+    bool operator > (const Klausurnote& andereNote)
+    {
+        return (double)*this > (double)andereNote;
+    }
+
+    bool operator <= (const Klausurnote& andereNote)
+    {
+        return (double)*this <= (double)andereNote;
+    }
+
+    bool operator >= (const Klausurnote& andereNote)
+    {
+        return (double)*this >= (double)andereNote;
+    }
+
+    void* operator new (size_t s)
+    {
+        std::cout << "Ueberladenes new fuer die Klasse Klausurnote !" << std::endl;
+        return ::operator new (s);
+    }
+
+    void operator delete (void* p)
+    {
+        std::cout << "Ueberladenes delete fuer die Klasse Klausurnote !" << std::endl;
+        return ::operator delete (p);
+    }
+
 private:
     char note[4] = { '0',',','0',0 }; // Initialisierung auf eine ungültige Note
 };
@@ -187,9 +255,7 @@ Klausurnote plusFr(const Klausurnote& eineNote, const Klausurnote& andereNote)
     float mittelwert1 = floor(mittelwert);
     float mittelwert2 = (mittelwert - mittelwert1) * 10;
 
-    Klausurnote obj(1.0); // Initialisierung auf einen gültigen Wert
-    obj.note[0] = mittelwert1 + 48; obj.note[1] = ','; obj.note[2] = mittelwert2 + 48; obj.note[3] = 0;
-    return obj;
+    return Klausurnote((int)mittelwert1, (int)mittelwert2);
 }
 
 void Klausurnote::printCtr()
@@ -203,39 +269,47 @@ int Klausurnote::ctrExstObjects = 0;
 
 int main()
 {
-    Klausurnote::printCtr();
-
     Klausurnote bio(1.4);
     bio.druckeNumerisch();
-    bio.druckeVerbal();
 
-    bio.set(3.5);
+    Klausurnote mat(5);
+    mat.druckeNumerisch();
+    
+    (bio + mat).druckeNumerisch();
+
+    bio += mat;
     bio.druckeNumerisch();
-    bio.druckeVerbal();
 
-    Klausurnote::printCtr();
+    bio = mat;
+    bio.druckeNumerisch();
+    
+    Klausurnote mus(2, 0);
+    mus.druckeNumerisch();
+    mus = mus * (double)1;
+    mus = 1.7 * mus;
+    std::cout << (double)mus << std::endl;
+    
 
-    {
-        Klausurnote mat("1,4");
-        mat.druckeNumerisch();
-        mat.druckeVerbal();
+    std::cout << "======================================" << std::endl;
+    bio(3, 4);
+    std::cout << "bio:  "; bio.druckeNumerisch();
+    std::cout << "mat:  "; mat.druckeNumerisch();
+    std::cout << "mus:  "; mus.druckeNumerisch();
 
-        mat.set("3,5");
-        mat.druckeNumerisch();
-        mat.druckeVerbal();
-    }
+    std::cout << "bio == mus  " << (bio == mus) << std::endl;
+    std::cout << "mat == mus  " << (mat == mus) << std::endl;
+    std::cout << "bio < mus  " << (bio < mus) << std::endl;
+    std::cout << "mat < mus  " << (mat < mus) << std::endl;
+    std::cout << "bio > mus  " << (bio > mus) << std::endl;
+    std::cout << "mat > mus  " << (mat > mus) << std::endl;
+    std::cout << "bio <= mus  " << (bio <= mus) << std::endl;
+    std::cout << "mat <= mus  " << (mat <= mus) << std::endl;
+    std::cout << "bio >= mus  " << (bio >= mus) << std::endl;
+    std::cout << "mat >= mus  " << (mat >= mus) << std::endl;
 
-    Klausurnote::printCtr();
 
-    Klausurnote phys(1, 4);
-    phys.druckeNumerisch();
-    phys.druckeVerbal();
-
-    phys.set(3, 5);
-    phys.druckeNumerisch();
-    phys.druckeVerbal();
-
-    Klausurnote::printCtr();
+    Klausurnote* phys = new Klausurnote;
+    delete phys;
 
 
     std::cin.get();
