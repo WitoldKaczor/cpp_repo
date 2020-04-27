@@ -274,6 +274,50 @@ int Zeichenkette::operator % (Zeichenkette& obj)
 	return this->enthaeltIdx(obj);
 }
 
+Zeichenkette Zeichenkette::operator | (short num)
+{
+	einfuegepunkt = ((num >= 0) && (num <= anzZeich)) ? num : -1;
+	return *this;
+}
+
+Zeichenkette Zeichenkette::operator * (const Zeichenkette& obj)
+{
+	if (einfuegepunkt == -1)
+		return *this;
+	
+	char* tmpChar = new char[anzZeich + obj.anzZeich + 1];
+	
+	for (int i = 0; i < einfuegepunkt; ++i)
+		tmpChar[i] = z[i];
+	for (int i = einfuegepunkt; i < einfuegepunkt + obj.anzZeich; ++i)
+		tmpChar[i] = obj.z[i - einfuegepunkt];
+	for (int i = einfuegepunkt + obj.anzZeich; i < anzZeich + obj.anzZeich; ++i)
+		tmpChar[i] = z[i- obj.anzZeich];
+	tmpChar[anzZeich + obj.anzZeich] = 0;
+
+	return Zeichenkette(tmpChar);
+}
+
+Zeichenkette::operator std::string()
+{
+	std::string zString = z;
+	return zString;
+}
+
+int Zeichenkette::operator () (char x, short position = 0)
+{
+	if (position < 0 || position >= anzZeich)
+		return -1;
+
+	for (int i = position; i < anzZeich; i++)
+		if (z[i] == x)
+			return i;
+
+	return -1;
+}
+// Ubung zum Operator()
+// Schreibe einen Funktionsaufruf - Operator fur die Klasse Zeichenkette, der ab einer Postion in der Zeichenkette nach einem Zeichen vom Typ char sucht und dessen Position zuruckgibt oder, falls nicht gefunden, -1 liefert.
+
 int main()
 {
 	Zeichenkette a("Hello World ");
@@ -322,6 +366,19 @@ int main()
 	std::cout << "c % a \t" << (c % a) << std::endl;
 	std::cout << "e % f \t" << (e % f) << std::endl;
 
+	std::cout << "===================================" << std::endl;
+	Zeichenkette h("Hello "); h.zeige();
+	Zeichenkette k("World"); k.zeige();
+	std::cout << "h | 0; h * k \t"; h | 0; (h * k).zeige();
+	std::cout << "h | 3; h * k \t"; h | 3; (h * k).zeige();
+	std::cout << "h | 6; h * k \t"; h | 6; (h * k).zeige();
+	std::cout << "h | -6; h * k \t"; h | -4; (h * k).zeige();
+	std::cout << "h | 15; h * k \t"; h | 15; (h * k).zeige();
+
+	std::cout << (std::string)a << std::endl;
+	std::cout << "k('d')     " << k('d') << std::endl;
+	std::cout << "k('d',3)   " << k('d',3) << std::endl;
+	std::cout << "k('d',8)   " << k('d',8) << std::endl;
 
 
 	std::cin.get();

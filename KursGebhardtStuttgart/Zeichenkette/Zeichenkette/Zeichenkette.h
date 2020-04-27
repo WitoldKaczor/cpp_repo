@@ -32,17 +32,14 @@ public:
 	void operator -= (Zeichenkette& obj);
 	int operator / (Zeichenkette& obj);
 	int operator % (Zeichenkette& obj);
-	// | 	a | 4 setzt Einfugepunkt vor Zeichen 4, gibt wieder a zuruck
-	// *	a * b fügt Zeichenkette b in a am Einfügepunkt ein und gibt Resultat zurück
-
-	// Cast - Operator fur Zeichenkette
-	// Schreiben Sie fur die Klasse Zeichenkette einen Cast - Operator, der die Zeichenkette in einen C - String wandelt. (Der Operator sollte eine Kopie des Strings liefern.)
-
-	// Ubung zum Operator()
-	// Schreibe einen Funktionsaufruf - Operator fur die Klasse Zeichenkette, der ab einer Postion in der Zeichenkette nach einem Zeichen vom Typ char sucht und dessen Position zuruckgibt oder, falls nicht gefunden, -1 liefert.
+	Zeichenkette operator | (short num); // a | 4 setzt Einfugepunkt vor Zeichen 4, gibt wieder a zuruck
+	Zeichenkette operator * (const Zeichenkette& obj); // a * b fügt Zeichenkette b in a am Einfügepunkt ein und gibt Resultat zurück
+	operator std::string ();
+	int operator () (char x, short position);
 
 private:
 	int anzZeich;
 	char* z;
+	short einfuegepunkt = -1;
 };
 #endif
