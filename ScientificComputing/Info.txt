@@ -1,0 +1,7 @@
+exercises from the book
+
+Joe Pitt-Francis, Jonathan Whiteley
+Guide to Scientific Computing in C++
+Second Edition
+Springer International Publishing AG, part of Springer Nature 2017
+ISBN 978-3-319-73131-5
