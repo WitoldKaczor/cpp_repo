@@ -21,5 +21,14 @@
     <ClCompile Include="exercise03.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="exercise04.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="exercise05.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="exercise06.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
