@@ -1,0 +1,15 @@
+#include <iostream>
+#include "Exception.hpp"
+
+Exception::Exception(std::string tagString, std::string probString)
+{
+	mTag = tagString;
+	mProblem = probString;
+}
+
+//Methods
+void Exception::PrintDebug() const
+{
+    std::cerr << "** Error (" << mTag << ") **\n";
+    std::cerr << "Problem: " << mProblem << "\n\n";
+}
