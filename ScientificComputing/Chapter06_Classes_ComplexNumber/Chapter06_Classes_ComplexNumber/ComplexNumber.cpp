@@ -49,7 +49,7 @@ ComplexNumber ComplexNumber::CalculatePower(double n) const
     if (n == 1)
         return ComplexNumber(mRealPart, mImaginaryPart);
 
-    if (mRealPart == 0 & mImaginaryPart == 0)
+    if (mRealPart == 0 && mImaginaryPart == 0)
         return ComplexNumber(0, 0);
 
     double modulus = CalculateModulus();
