@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chapter10_LinearSystemSolver", "Chapter10_LinearSystemSolver\Chapter10_LinearSystemSolver.vcxproj", "{6114026F-DB7D-473A-83D9-52B23CA1B57E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+		UnitTest Debug|x64 = UnitTest Debug|x64
+		UnitTest Debug|x86 = UnitTest Debug|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.Debug|x64.ActiveCfg = Debug|x64
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.Debug|x64.Build.0 = Debug|x64
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.Debug|x86.ActiveCfg = Debug|Win32
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.Debug|x86.Build.0 = Debug|Win32
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.Release|x64.ActiveCfg = Release|x64
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.Release|x64.Build.0 = Release|x64
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.Release|x86.ActiveCfg = Release|Win32
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.Release|x86.Build.0 = Release|Win32
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.UnitTest Debug|x64.ActiveCfg = UnitTest Debug|x64
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.UnitTest Debug|x64.Build.0 = UnitTest Debug|x64
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.UnitTest Debug|x86.ActiveCfg = UnitTest Debug|Win32
+		{6114026F-DB7D-473A-83D9-52B23CA1B57E}.UnitTest Debug|x86.Build.0 = UnitTest Debug|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F81D2C7-729D-41AC-BFDE-DD055C6E206A}
+	EndGlobalSection
+EndGlobal
