@@ -195,6 +195,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LinearSystem.cpp" />
     <ClCompile Include="Main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTest Debug|Win32'">true</ExcludedFromBuild>
@@ -215,6 +216,7 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LinearSystem.hpp" />
     <ClInclude Include="Matrix.hpp" />
     <ClInclude Include="Vector.hpp" />
   </ItemGroup>

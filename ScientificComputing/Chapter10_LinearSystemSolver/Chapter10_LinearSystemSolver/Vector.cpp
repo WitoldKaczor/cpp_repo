@@ -30,7 +30,7 @@ Vector::Vector(int size)
 // Overridden destructor to correctly free memory
 Vector::~Vector()
 {
-   //delete[] mData;
+   delete[] mData;
 }
 
 // Method to get the size of a vector

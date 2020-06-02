@@ -1,5 +1,6 @@
 #include "Vector.hpp"
 #include "Matrix.hpp"
+#include "LinearSystem.hpp"
 
 class TestSuiteAsserts
 {//based on CxxTest
@@ -478,8 +479,8 @@ int main(int argc, char* argv[])
 {
 	std::cout << "TestSuite\n";
 
-	TestSuiteVector obj01;
-	TestSuiteMatrix obj02;
+	TestSuiteVector TestObjVector;
+	TestSuiteMatrix TestObjMatrix;
 	
 
 	std::cin.get();
