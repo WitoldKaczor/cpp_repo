@@ -1,6 +1,3 @@
-#include <cmath>
-#include <iostream>
-#include <cassert>
 #include "Vector.hpp"
 
 // Overridden copy constructor
@@ -157,4 +154,18 @@ double Vector::CalculateNorm(int p) const
 int length(const Vector& v)
 {
    return v.mSize;
+}
+
+// Overloading the insertion << operator
+std::ostream& operator<<(std::ostream& output, const Vector& v1)
+{// Format: "( v1[0], v1[1], ..., v1[n] )"
+    output << "( ";
+    for (int i = 0; i < v1.mSize; ++i)
+    {
+        output << v1.Read(i);
+        if (i != v1.mSize-1)
+            output << ", ";
+    }
+    output << " )";
+    return output;
 }
