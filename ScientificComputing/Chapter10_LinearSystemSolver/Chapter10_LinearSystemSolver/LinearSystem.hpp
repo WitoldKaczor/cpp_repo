@@ -6,14 +6,14 @@
 
 class LinearSystem
 {
-private:
+protected:
 	int mSize = 0;
 	const Matrix* mpA = 0;
 	const Vector* mpb = 0;
 public:
 	LinearSystem(const Matrix& A, const Vector& b);
-	Vector Solve();
-private:
+	virtual Vector Solve();
+protected:
 	LinearSystem(const LinearSystem& LinSys);
 };
 

@@ -1,6 +1,9 @@
 #include "Vector.hpp"
 #include "Matrix.hpp"
 #include "LinearSystem.hpp"
+# include "PosDefSymmLinearSystem.hpp"
+#include <fstream>
+#include <string>
 
 class TestSuiteAsserts
 {//based on CxxTest
@@ -420,29 +423,29 @@ private:
 		Vector v1(2);
 		v1(1) = 3;
 		v1(2) = 5;
-		Matrix A2(3, 1);
-		A2 = A1 * v1;
-		TS_ASSERT_DELTA(A2(1, 1), 3, 1e-16);
-		TS_ASSERT_DELTA(A2(2, 1), 5, 1e-16);
-		TS_ASSERT_DELTA(A2(3, 1), 0, 1e-16);
+		Vector v2(3);
+		v2 = A1 * v1;
+		TS_ASSERT_DELTA(v2(1), 3, 1e-16);
+		TS_ASSERT_DELTA(v2(2), 5, 1e-16);
+		TS_ASSERT_DELTA(v2(3), 0, 1e-16);
 
 		Matrix A3(3, 2);
 		A3(1, 1) =  1;	A3(1, 2) = -2;
 		A3(2, 1) = -3;	A3(2, 2) =  6;
 		A3(3, 1) =  0;	A3(3, 2) =  1;
-		A2 = A3 * v1;
-		TS_ASSERT_DELTA(A2(1, 1), -7, 1e-16);
-		TS_ASSERT_DELTA(A2(2, 1), 21, 1e-16);
-		TS_ASSERT_DELTA(A2(3, 1),  5, 1e-16);
+		v2 = A3 * v1;
+		TS_ASSERT_DELTA(v2(1), -7, 1e-16);
+		TS_ASSERT_DELTA(v2(2), 21, 1e-16);
+		TS_ASSERT_DELTA(v2(3),  5, 1e-16);
 
 		Matrix A4(3, 2);
 		for (int i = 1; i <= 3; ++i)
 			for (int j = 1; j <= 2; ++j)
 				A4(i, j) = 0.0;
-		A2 = A4 * v1;
-		TS_ASSERT_DELTA(A2(1, 1), 0, 1e-16);
-		TS_ASSERT_DELTA(A2(2, 1), 0, 1e-16);
-		TS_ASSERT_DELTA(A2(3, 1), 0, 1e-16);
+		v2 = A4 * v1;
+		TS_ASSERT_DELTA(v2(1), 0, 1e-16);
+		TS_ASSERT_DELTA(v2(2), 0, 1e-16);
+		TS_ASSERT_DELTA(v2(3), 0, 1e-16);
 	}
 
 	void TestDeterminant()
@@ -475,13 +478,173 @@ private:
 	}
 };
 
+class TestSuiteLinearSystem : public TestSuiteAsserts
+{
+public:
+	TestSuiteLinearSystem()
+	{
+		// all the test methods are called 
+		// in the default constructor
+		TestCalcLinSys2x2();
+		TestCalcLinSys3x3();
+		TestCalcLinSys4x4();
+
+		// inform the user when the tests are passed
+		std::cout << "All tests on the class LinearSystem passed\n";
+	}
+
+private:
+	Vector TestCalculationOfLinSys(int nSystemSize)
+	{
+		// define system, read from file
+		std::ifstream readMatrixA;
+		std::ifstream readVectorb;
+
+		// define file name and open file
+		std::string MatrixFileName = "systemsData/matrixA_dim" + std::to_string(nSystemSize) + ".dat";
+		std::string VectorFileName = "systemsData/vectorb_dim" + std::to_string(nSystemSize) + ".dat";
+		readMatrixA.open(MatrixFileName);
+		readVectorb.open(VectorFileName);
+
+		// define matrix and vector of the system
+		Matrix A(nSystemSize, nSystemSize);
+		Vector b(nSystemSize);
+
+		// read matrix from the file
+		assert(readMatrixA.is_open());
+		for (int i = 1; i <= nSystemSize; ++i)
+			for (int j = 1; j <= nSystemSize; ++j)
+				readMatrixA >> A(i, j);
+		readMatrixA.close();
+
+		// read vector from the file
+		assert(readVectorb.is_open());
+		for (int i = 1; i <= nSystemSize; ++i)
+			readVectorb >> b(i);
+		readVectorb.close();
+
+		// solve the linear system 
+		// and print solution vector to the console
+		LinearSystem LinSys(A, b);
+
+		// return the solution vector
+		return LinSys.Solve();
+	}
+
+	void TestCalcLinSys2x2()
+	{
+		Vector u = TestCalculationOfLinSys(2);
+		TS_ASSERT_DELTA(u(1),  3, 1e-16);
+		TS_ASSERT_DELTA(u(2), -1, 1e-16);
+	}
+	
+	void TestCalcLinSys3x3()
+	{
+		Vector u = TestCalculationOfLinSys(3);
+		TS_ASSERT_DELTA(u(1), (6.0 / 19.0), 1e-16);
+		TS_ASSERT_DELTA(u(2), (5.0 / 19.0), 1e-16);
+		TS_ASSERT_DELTA(u(3), (2.0 / 19.0), 1e-16);
+	}
+
+	void TestCalcLinSys4x4()
+	{
+		Vector u = TestCalculationOfLinSys(4);
+		TS_ASSERT_DELTA(u(1), -(164.0 / 75.0), 1e-14);
+		TS_ASSERT_DELTA(u(2),  ( 23.0 / 15.0), 1e-14);
+		TS_ASSERT_DELTA(u(3),  (184.0 / 75.0), 1e-14);
+		TS_ASSERT_DELTA(u(4),  (188.0 / 75.0), 1e-14);
+	}
+};
+
+class TestSuitePosDefSymmLinearSystem : public TestSuiteAsserts
+{
+public:
+	TestSuitePosDefSymmLinearSystem()
+	{
+		// all the test methods are called 
+		// in the default constructor
+		TestCalcPosDefSymmLinSys2x2();
+		TestCalcPosDefSymmLinSys3x3();
+		TestCalcPosDefSymmLinSys4x4();
+
+		// inform the user when the tests are passed
+		std::cout << "All tests on the class TestSuitePosDefSymmLinearSystem passed\n";
+	}
+
+private:
+	double TestTolerance = 1e-14;
+private:
+	Vector TestCalcOfPosDefSymmLinSys(int nSystemSize)
+	{
+		// define system, read from file
+		std::ifstream readMatrixA;
+		std::ifstream readVectorb;
+
+		// define file name and open file
+		std::string MatrixFileName = "systemsDataSym/matrixA_dim" + std::to_string(nSystemSize) + ".dat";
+		std::string VectorFileName = "systemsDataSym/vectorb_dim" + std::to_string(nSystemSize) + ".dat";
+		readMatrixA.open(MatrixFileName);
+		readVectorb.open(VectorFileName);
+
+		// define matrix and vector of the system
+		Matrix A(nSystemSize, nSystemSize);
+		Vector b(nSystemSize);
+
+		// read matrix from the file
+		assert(readMatrixA.is_open());
+		for (int i = 1; i <= nSystemSize; ++i)
+			for (int j = 1; j <= nSystemSize; ++j)
+				readMatrixA >> A(i, j);
+		readMatrixA.close();
+
+		// read vector from the file
+		assert(readVectorb.is_open());
+		for (int i = 1; i <= nSystemSize; ++i)
+			readVectorb >> b(i);
+		readVectorb.close();
+
+		// solve the linear system 
+		// and print solution vector to the console
+		PosDefSymmLinearSystem SymLinSys(A, b);
+
+		// return the solution vector
+		return SymLinSys.Solve(TestTolerance);
+	}
+
+	void TestCalcPosDefSymmLinSys2x2()
+	{
+		Vector u = TestCalcOfPosDefSymmLinSys(2);
+		TS_ASSERT_DELTA(u(1), 0.8, TestTolerance);
+		TS_ASSERT_DELTA(u(2), 0.4, TestTolerance);
+	}
+
+	void TestCalcPosDefSymmLinSys3x3()
+	{
+		Vector u = TestCalcOfPosDefSymmLinSys(3);
+		TS_ASSERT_DELTA(u(1),  5.0, TestTolerance);
+		TS_ASSERT_DELTA(u(2),  4.0, TestTolerance);
+		TS_ASSERT_DELTA(u(3), -2.0, TestTolerance);
+	}
+
+	void TestCalcPosDefSymmLinSys4x4()
+	{
+		Vector u = TestCalcOfPosDefSymmLinSys(4);
+		TS_ASSERT_DELTA(u(1), -(138.0 / 169.0), TestTolerance);
+		TS_ASSERT_DELTA(u(2),  (249.0 / 169.0), TestTolerance);
+		TS_ASSERT_DELTA(u(3), -(133.0 / 169.0), TestTolerance);
+		TS_ASSERT_DELTA(u(4),  (124.0 / 169.0), TestTolerance);
+	}
+};
+
 int main(int argc, char* argv[])
 {
 	std::cout << "TestSuite\n";
 
 	TestSuiteVector TestObjVector;
 	TestSuiteMatrix TestObjMatrix;
-	
+	TestSuiteLinearSystem TestObjLinSys;
+	TestSuitePosDefSymmLinearSystem TestObjPosDefSymmLinSys;
+
 
 	std::cin.get();
 	return 0;

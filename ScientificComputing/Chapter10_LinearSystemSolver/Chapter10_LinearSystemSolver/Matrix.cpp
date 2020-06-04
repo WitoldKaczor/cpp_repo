@@ -60,6 +60,14 @@ double& Matrix::operator()(int i, int j)
 	return mData[i - 1][j - 1];
 }
 
+double& Matrix::operator()(int i, int j) const
+{
+	assert(i > 0 && i < mNumRows + 1);
+	assert(j > 0 && j < mNumCols + 1);
+
+	return mData[i - 1][j - 1];
+}
+
 Matrix& Matrix::operator=(const Matrix& A1)
 {
 	assert(mNumRows == A1.mNumRows);
@@ -127,16 +135,16 @@ Matrix Matrix::operator*(const Matrix& A1) const
 	return NewMatrix;
 }
 
-Matrix Matrix::operator*(const Vector& v1) const
+Vector Matrix::operator*(const Vector& v1) const
 {// matrix * vector only
 	assert(mNumCols == v1.GetSize());
 
-	Matrix NewMatrix(mNumRows, 1);
+	Vector NewVector(mNumRows);
 	for (int i = 0; i < mNumRows; ++i)
 		for (int j = 0; j < mNumCols; ++j)
-				NewMatrix.mData[i][0] += mData[i][j] * v1.Read(j);
+			NewVector[i] += mData[i][j] * v1.Read(j);
 
-	return NewMatrix;
+	return NewVector;
 }
 
 std::ostream& operator<<(std::ostream& output, const Matrix& A1)

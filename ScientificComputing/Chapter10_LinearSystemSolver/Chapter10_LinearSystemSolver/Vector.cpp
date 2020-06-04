@@ -69,6 +69,13 @@ double& Vector::operator()(int i)
    return mData[i-1];
 }
 
+double& Vector::operator()(int i) const
+{
+    assert(i > 0);
+    assert(i < mSize + 1);
+    return mData[i - 1];
+}
+
 // Overloading the assignment operator
 Vector& Vector::operator=(const Vector& otherVector)
 {
