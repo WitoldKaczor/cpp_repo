@@ -8,6 +8,7 @@
 #include "FiniteDifferenceGrid.hpp"
 #include "SecondOrderOde.hpp"
 #include "BoundaryConditions.hpp"
+#include <vector>
 
 class BvpOde
 {
@@ -60,6 +61,7 @@ public:
 	void SetFilename(const std::string& name);
 	void Solve();
 	void WriteSolutionFile();
+	void SetGrid(std::vector<double> inputCoordVec);
 };
 
 #endif

@@ -12,6 +12,7 @@ private:
 	std::vector<Node> mNodes;
 public:
 	FiniteDifferenceGrid(int numNodes, double xMin,	double xMax);
+	void SetGrid(std::vector<double> inputCoordVec);
 };
 
 #endif

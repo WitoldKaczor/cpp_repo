@@ -141,3 +141,21 @@ void BvpOde::WriteSolutionFile()
 		writeSolutionToFile << mpGrid->mNodes[i-1].coordinate << '\t' << (*mpSolVec)(i) << '\n';
 	writeSolutionToFile.close();
 }
+
+void BvpOde::SetGrid(std::vector<double> inputCoordVec)
+{
+	assert(fabs(inputCoordVec[0] - mpOde->mXmin) < 1e-16);
+	assert(fabs(inputCoordVec[inputCoordVec.size() - 1] - mpOde->mXmax) < 1e-16);
+
+	//resize the grid
+	mpGrid->SetGrid(inputCoordVec);
+	mNumNodes = inputCoordVec.size();
+
+	// allocate new system vectors and matrix
+	delete mpSolVec;
+	delete mpRhsVec;
+	delete mpLhsMat;
+	mpSolVec = new Vector(mNumNodes);
+	mpRhsVec = new Vector(mNumNodes);
+	mpLhsMat = new Matrix(mNumNodes, mNumNodes);
+}

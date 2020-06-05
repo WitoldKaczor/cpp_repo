@@ -15,3 +15,10 @@ FiniteDifferenceGrid::FiniteDifferenceGrid(int numNodes, double xMin, double xMa
 		mNodes[i].coordinate = mNodes[i-1].coordinate + dist;
 	mNodes[numNodes - 1].coordinate = xMax;
 }
+
+void FiniteDifferenceGrid::SetGrid(std::vector<double> inputCoordVec)
+{
+	mNodes.resize(inputCoordVec.size());
+	for (int i = 0; i < inputCoordVec.size(); ++i)
+		mNodes[i].coordinate = inputCoordVec[i];
+}
