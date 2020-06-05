@@ -18,17 +18,25 @@ private:
 	// Interval for domain
 	double mXmin;
 	double mXmax;
+
+	// Bool variables for set check
+	bool mCoeffOfUxxIsSet;
+	bool mCoeffOfUxIsSet;
+	bool mCoeffOfUIsSet;
+	bool mpRhsFuncIsSet;
+	bool mXminIsSet;
+	bool mXmaxIsSet;
 public:
+	SecondOrderOde();
 	SecondOrderOde(double coeffUxx, double coeffUx, double coeffU,
-		double (*righthandSide)(double), double xMinimum, double xMaximum)
-	{
-		mCoeffOfUxx = coeffUxx;
-		mCoeffOfUx = coeffUx;
-		mCoeffOfU = coeffU;
-		mpRhsFunc = righthandSide;
-		mXmin = xMinimum;
-		mXmax = xMaximum;
-	}
+		double (*righthandSide)(double), double xMinimum, double xMaximum);
+	
+	void SetCoeffOfUxx(double coeffUxx);
+	void SetCoeffOfUx(double coeffUx);
+	void SetCoeffOfU(double coeffU);
+	void SetRhsFunc(double (*righthandSide)(double));
+	void SetXmin(double xMinimum);
+	void SetXmax(double xMaximum);
 };
 
 #endif

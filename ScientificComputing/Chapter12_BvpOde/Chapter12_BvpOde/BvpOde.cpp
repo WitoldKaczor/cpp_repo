@@ -19,6 +19,9 @@ BvpOde::BvpOde(const BvpOde& otherBvpOde)
 
 BvpOde::BvpOde(SecondOrderOde* pOde, BoundaryConditions* pBcs, int numNodes)
 {
+	assert(pOde->mCoeffOfUxxIsSet && pOde->mCoeffOfUxIsSet && pOde->mCoeffOfUIsSet
+		&& pOde->mpRhsFuncIsSet && pOde->mXminIsSet && pOde->mXmaxIsSet);
+
 	mpOde = pOde; //SecondOrderOde*
 	mpBconds = pBcs; //BoundaryConditions*
 	mNumNodes = numNodes; //int

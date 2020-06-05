@@ -7,7 +7,16 @@ constexpr double M_PI = 3.14159265358979323846; // pi
 
 int main(int argc, char* argv[])
 {
-	SecondOrderOde ode_mp1(-1.0, 0.0, 0.0, [](double x) { return 1.0; }, 0.0, 1.0);
+	//SecondOrderOde ode_mp1(-1.0, 0.0, 0.0, [](double x) { return 1.0; }, 0.0, 1.0);
+	// alternative way to initialize ODE with overriden default constructor
+	SecondOrderOde ode_mp1;
+	ode_mp1.SetCoeffOfUxx(-1.0);
+	ode_mp1.SetCoeffOfUx(0.0);
+	ode_mp1.SetCoeffOfU(0.0);
+	ode_mp1.SetRhsFunc([](double x) { return 1.0; });
+	ode_mp1.SetXmin(0.0);
+	ode_mp1.SetXmax(1.0);
+	
 	BoundaryConditions bc_mp1;
 	bc_mp1.SetLhsDirichletBc(0.0);
 	bc_mp1.SetRhsDirichletBc(0.0);
