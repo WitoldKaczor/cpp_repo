@@ -162,3 +162,8 @@ void BvpOde::SetGrid(std::vector<double> inputCoordVec)
 	mpRhsVec = new Vector(mNumNodes);
 	mpLhsMat = new Matrix(mNumNodes, mNumNodes);
 }
+
+Vector* BvpOde::OutputSolution() const
+{
+	return mpSolVec;
+}

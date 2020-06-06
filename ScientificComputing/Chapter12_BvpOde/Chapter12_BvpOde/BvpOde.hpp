@@ -62,6 +62,7 @@ public:
 	void Solve();
 	void WriteSolutionFile();
 	void SetGrid(std::vector<double> inputCoordVec);
+	Vector* OutputSolution() const;
 };
 
 #endif
