@@ -2,19 +2,26 @@
 #define BVPODEHEADERDEF
 
 #include <string>
+#include <fstream>
+#include <cassert>
 #include "Matrix.hpp"
 #include "Vector.hpp"
 #include "LinearSystem.hpp"
 #include "FiniteDifferenceGrid.hpp"
 #include "PoissonEq.hpp"
 #include "BoundaryConditions.hpp"
-//#include <vector>
 
 class BvpOde
 {
 public:
 	// Sole constructor
-	BvpOde(PoissonEq* pOde, FiniteDifferenceGrid* pGrid, BoundaryConditions* pBcs, int numNodesX, int numNodesY);
+	BvpOde(double poissonEqRhsFcn(double x, double y),
+		int numXNodes, int xMin, int xMax,
+		int numYNodes, int yMin, int yMax,
+		double YFcnAtXmin(double y),
+		double YFcnAtXmax(double y),
+		double XFcnAtYmin(double x),
+		double XFcnAtYmax(double x));
 
 		// As memory is dynamically allocated the destructor is overridden
 		~BvpOde();

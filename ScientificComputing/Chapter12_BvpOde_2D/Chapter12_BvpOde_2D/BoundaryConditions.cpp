@@ -1,6 +1,4 @@
 #include "BoundaryConditions.hpp"
-#include <cassert>
-#include <cmath>
 
 BoundaryConditions::BoundaryConditions(double YFcnAtXmin(double y),
 	double YFcnAtXmax(double y),

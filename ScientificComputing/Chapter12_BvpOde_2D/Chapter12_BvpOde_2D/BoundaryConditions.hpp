@@ -2,7 +2,8 @@
 #define BOUNDARYCONDITIONSHEADERDEF
 
 #include <vector>
-#include "FiniteDifferenceGrid.hpp"
+#include <cassert>
+#include <cmath>
 
 class BoundaryConditions
 {
@@ -15,7 +16,7 @@ private:
 	std::vector<double> YAtXmin;
 	std::vector<double> XAtYmax;
 	std::vector<double> XAtYmin;
-public:
+private:
 	BoundaryConditions(double YFcnAtXmin(double y),
 		double YFcnAtXmax(double y),
 		double XFcnAtYmin(double x),

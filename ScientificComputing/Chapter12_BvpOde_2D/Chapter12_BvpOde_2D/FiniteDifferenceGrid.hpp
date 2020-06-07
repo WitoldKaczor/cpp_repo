@@ -1,6 +1,7 @@
 #ifndef FINITEDIFFERENCEGRIDHEADERDEF
 #define FINITEDIFFERENCEGRIDHEADERDEF
 #include <vector>
+#include <cassert>
 #include "Node.hpp"
 
 class FiniteDifferenceGrid
@@ -10,7 +11,7 @@ public:
 	friend class BvpOde;
 private:
 	std::vector<Node> mNodes;
-public:
+private:
 	FiniteDifferenceGrid(int numNodesX, double xMin, double xMax,
 		int numNodesY, double yMin, double yMax);
 };

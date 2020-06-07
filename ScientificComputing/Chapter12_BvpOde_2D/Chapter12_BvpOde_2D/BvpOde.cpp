@@ -1,7 +1,4 @@
 #include "BvpOde.hpp"
-#include <fstream>
-#include <cassert>
-#include <iostream>
 
 BvpOde::BvpOde(const BvpOde& otherBvpOde)
 {
@@ -19,23 +16,32 @@ BvpOde::BvpOde(const BvpOde& otherBvpOde)
 	mFilename = "";
 }
 
-BvpOde::BvpOde(PoissonEq* pOde, FiniteDifferenceGrid* pGrid,
-	BoundaryConditions* pBcs, int numNodesX, int numNodesY)
+BvpOde::BvpOde(double poissonEqRhsFcn(double x, double y),
+	int numXNodes, int xMin, int xMax,
+	int numYNodes, int yMin, int yMax,
+	double YFcnAtXmin(double y),
+	double YFcnAtXmax(double y),
+	double XFcnAtYmin(double x),
+	double XFcnAtYmax(double x))
 {
-	mNumNodesX = numNodesX;
-	mNumNodesY = numNodesY;
-	mpGrid = pGrid;
-	mpOde = pOde;
-	mpBcs = pBcs;
-	mpSolVec = new Vector(numNodesX * numNodesY);
-	mpRhsVec = new Vector(numNodesX * numNodesY);
-	mpLhsMat = new Matrix(numNodesX * numNodesY, numNodesX * numNodesY);
+	mNumNodesX = numXNodes;
+	mNumNodesY = numYNodes;
+	mpGrid = new FiniteDifferenceGrid(numXNodes, xMin, xMax, numYNodes, yMin, yMax);
+	mpOde = new PoissonEq(poissonEqRhsFcn, xMin, xMax, yMin, yMax);
+	mpBcs = new BoundaryConditions(YFcnAtXmin, YFcnAtXmax, XFcnAtYmin, XFcnAtYmax,
+		numXNodes, xMin, xMax, numYNodes, yMin, yMax);
+	mpSolVec = new Vector(numXNodes * numYNodes);
+	mpRhsVec = new Vector(numXNodes * numYNodes);
+	mpLhsMat = new Matrix(numXNodes * numYNodes, numXNodes * numYNodes);
 	mpLinSys = NULL;
 	mFilename = "";
 }
 
 BvpOde::~BvpOde()
 {// deallocate all the dynamic allocated memory
+	delete mpGrid;
+	delete mpOde;
+	delete mpBcs;
 	delete mpSolVec;
 	delete mpRhsVec;
 	delete mpLhsMat;

@@ -13,7 +13,7 @@ private:
 	double mXmax;
 	double mYmin;
 	double mYmax;
-public:
+private:
 	PoissonEq(double (*righthandSide)(double, double),
 		double xMinimum, double xMaximum,
 		double yMinimum, double yMaximum)
